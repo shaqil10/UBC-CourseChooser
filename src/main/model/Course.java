@@ -26,4 +26,20 @@ public class Course {
         this.grades = grades;
     }
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getCourseNum() {
+        return coursenum;
+    }
+
+    public double getMean() {
+        return stats.getAverage();
+    }
+
 }

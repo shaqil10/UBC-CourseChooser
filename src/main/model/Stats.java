@@ -20,4 +20,8 @@ public class Stats {
         this.withdrew = withdrew;
 
     }
+
+    public double getAverage() {
+        return average;
+    }
 }

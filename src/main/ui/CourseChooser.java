@@ -1,23 +1,32 @@
-package model;
+package ui;
 
-import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
-public class CourseDatabase {
-    private ArrayList<Course> dummyCourseDatabase;
+public class CourseChooser {
 
-
-    public CourseDatabase() {
-        dummyCourseDatabase = new ArrayList<>();
+    //EFFECTS: Run the Course Chooser application
+    public CourseChooser() {
+        runProgram();
     }
 
-    //4 MATH courses at 100 level
-    //4 CPSC courses at 200 level
-    //4 COMM courses at 300 level
-    //4 CHEM courses at 400 level
+    //MODIFIES: this
+    //EFFECTS:
+
+    public void runProgram() {
+        ArrayList<Course> myList = new ArrayList<>();
+        ArrayList<Course> courseList = populateCourseList();
+        //Prompt for subject, year level, and mean threshold
+        //Help list for possible inputs
+        //If one of the fields don't match, have a message saying one of the choices is invalid
+        ArrayList<Course> searchResults = new Searcher().searcher(courseList, "!!!", "!!!", 0 );
+
+
+    }
+
+
     public ArrayList<Course> populateCourseList() {
 
         //MATH:*
@@ -186,6 +195,9 @@ public class CourseDatabase {
                 c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21));
 
         return courseDatabase;
-
     }
 }
+
+
+
+
