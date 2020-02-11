@@ -1,11 +1,16 @@
 package ui;
 
 import model.*;
-
+import model.Searcher;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
+
+import static java.lang.Integer.parseInt;
 
 public class CourseChooser {
+
+    private Scanner input;
 
     //EFFECTS: Run the Course Chooser application
     public CourseChooser() {
@@ -18,6 +23,64 @@ public class CourseChooser {
     public void runProgram() {
         ArrayList<Course> myList = new ArrayList<>();
         ArrayList<Course> courseList = populateCourseList();
+
+        boolean runApp = true;
+        String command = null;
+        input = new Scanner(System.in);
+
+
+        while (runApp) {
+            displayStartMenu();
+            command = input.next();
+            command = command.toLowerCase();
+
+            switch (command) {
+                case "q" :
+                    //exits the application
+                    runApp = false;
+                    break;
+
+                case "s" :
+                    //prompts the user for search parameters
+                    System.out.println("What subject would you like to search for? Enter the 4-letter code.\n"
+                            + "For example, 'CPSC' for computer science.");
+                    Scanner subjectInput = new Scanner(System.in);
+                    String subjectCommand = subjectInput.next();
+
+                    System.out.println("What year level would you like to search for? Enter one number.\n"
+                            + "For example, '2' for a 2nd year course.");
+                    Scanner yearInput = new Scanner(System.in);
+                    String yearCommand = yearInput.next();
+
+                    System.out.println("What is the lowest course average you would like to consider in your search?\n"
+                            + "For example, if you want only courses with an average of 75 or higher: enter '75'.");
+                    Scanner avgInput = new Scanner(System.in);
+                    String avgCommand = avgInput.next();
+
+                    ArrayList<Course> searchResults = Searcher.searcher(courseList,
+                            subjectCommand,yearCommand, parseInt(avgCommand));
+
+                    for (Course i:searchResults) {
+                        System.out.println(i.getId());
+                    }
+
+                    break;
+
+                case "a" :
+                    //prompts the user for a course ID
+                    //adds the course with the given ID to their myList
+
+                default:
+                    System.out.println("That ain't an option, homie. Try again.");
+            }
+
+
+
+        }
+
+        System.out.println("\nLater, skater.");
+
+
         //Prompt for subject, year level, and mean threshold
         //Help list for possible inputs
         //If one of the fields don't match, have a message saying one of the choices is invalid
@@ -196,6 +259,15 @@ public class CourseChooser {
 
         return courseDatabase;
     }
+
+    // EFFECTS: displays menu of options to user
+    private void displayStartMenu() {
+        System.out.println("\nPick one of these bad boys:");
+        System.out.println("\ta -> add a course to your worklist");
+        System.out.println("\ts -> search for courses");
+        System.out.println("\tq -> quit");
+    }
+
 }
 
 
