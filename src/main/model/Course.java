@@ -68,7 +68,16 @@ public class Course {
 
     public Stats getStats() {
         return stats;
+    }
 
-
+    public void infoToString() {
+        System.out.println("Course ID   : " + getId());
+        System.out.println("YearSession : " + getYearsession());
+        System.out.println("Subject     : " + getSubject());
+        System.out.println("Course Code : " + getCourseNum());
+        System.out.println("Section     : " + getSection());
+        System.out.println("Course Name : " + getTitle());
+        System.out.println("Instructor  : " + getInstructor().getName());
+        System.out.println("Enrolled    : " + String.valueOf(getEnrolled()));
     }
 }

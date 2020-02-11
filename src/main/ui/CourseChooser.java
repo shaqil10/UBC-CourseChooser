@@ -1,7 +1,6 @@
 package ui;
 
 import model.*;
-import model.Searcher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -21,13 +20,12 @@ public class CourseChooser {
     //EFFECTS:
 
     public void runProgram() {
-        ArrayList<Course> myList = new ArrayList<>();
-        ArrayList<Course> courseList = populateCourseList();
+        CourseList myList = new CourseList();
+        CourseList courseList = populateCourseList();
 
         boolean runApp = true;
         String command = null;
         input = new Scanner(System.in);
-
 
         while (runApp) {
             displayStartMenu();
@@ -43,14 +41,12 @@ public class CourseChooser {
                 case "search":
                     //prompts the user for search parameters
                     search(courseList);
-
                     break;
 
                 case "info" :
                     //returns general information about a specific course
                     info(courseList);
                     break;
-
 
                 case "grades" :
                     //returns the grade distribution when prompted for a course ID
@@ -86,47 +82,47 @@ public class CourseChooser {
         System.out.println("\nLater, skater.");
     }
 
-    private void removeCourse(ArrayList<Course> myList) {
-        if (myList.size() == 0) {
+    private void removeCourse(CourseList myList) {
+        if (myList.getSize() == 0) {
             System.out.println("You ain't got any courses in your list, homedrizzle.");
         } else {
             System.out.println("Provide the index of which course you would like to remove:\n"
                     + "(indexes are found to the right of the list entry)");
             Scanner indexRemove = new Scanner(System.in);
             String indexCommand = indexRemove.next();
-            myList.remove(parseInt(indexCommand));
+            myList.removeCourse(parseInt(indexCommand));
             System.out.println("You're the boss. That index is gone! Here's your updated list:");
             Integer count = 0;
-            for (Course i: myList) {
+            for (Course i: myList.getListCourse()) {
                 System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
                 count++;
             }
         }
     }
 
-    private void viewMyList(ArrayList<Course> myList) {
-        if (myList.size() == 0) {
+    private void viewMyList(CourseList myList) {
+        if (myList.getSize() == 0) {
             System.out.println("You ain't got any courses in your list, homedrizzle.");
         } else {
             System.out.println("Ay baybay, these are the courses in your worklist:");
             Integer count = 0;
-            for (Course i: myList) {
+            for (Course i: myList.getListCourse()) {
                 System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
                 count++;
             }
         }
     }
 
-    private void addCourse(ArrayList<Course> myList, ArrayList<Course> courseList) {
+    private void addCourse(CourseList myList, CourseList courseList) {
         System.out.println("Provide the course ID for the class you would like to add in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"
                 + "For example, UBC-2018W-MATH-100-101");
         Scanner courseInput = new Scanner(System.in);
         String courseCommand = courseInput.next();
         boolean added = false;
-        for (Course i :courseList) {
+        for (Course i :courseList.getListCourse()) {
             if (courseCommand.equals(i.getId())) {
-                myList.add(i);
+                myList.addCourse(i);
                 System.out.println("I added " + i.getId() + " to your courselist!");
                 added = true;
             }
@@ -136,14 +132,14 @@ public class CourseChooser {
         }
     }
 
-    private void stats(ArrayList<Course> courseList) {
+    private void stats(CourseList courseList) {
         System.out.println("Provide the course ID for the class you would like to view in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"
                 + "For example, UBC-2018W-MATH-100-101");
         Scanner statInput = new Scanner(System.in);
         String statCommand = statInput.next();
         boolean find = false;
-        for (Course i : courseList) {
+        for (Course i : courseList.getListCourse()) {
             if (statCommand.equals(i.getId())) {
                 System.out.println("The statistics for " + statCommand + " are as follows:");
                 i.getStats().statsToString();
@@ -155,14 +151,14 @@ public class CourseChooser {
         }
     }
 
-    private void grades(ArrayList<Course> courseList) {
+    private void grades(CourseList courseList) {
         System.out.println("Provide the course ID for the class you would like to view in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"
                 + "For example, UBC-2018W-MATH-100-101");
         Scanner gradeInput = new Scanner(System.in);
         String gradeCommand = gradeInput.next();
         boolean found = false;
-        for (Course i : courseList) {
+        for (Course i : courseList.getListCourse()) {
             if (gradeCommand.equals(i.getId())) {
                 System.out.println("The grades for " + gradeCommand + " are as follows:");
                 i.getGrades().gradesToString();
@@ -174,30 +170,22 @@ public class CourseChooser {
         }
     }
 
-    private void info(ArrayList<Course> courseList) {
+    private void info(CourseList courseList) {
         System.out.println("Provide the course ID for the class you would like to view in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"
                 + "For example, UBC-2018W-MATH-100-101");
         Scanner infoInput = new Scanner(System.in);
         String infoCommand = infoInput.next();
         boolean located = false;
-        for (Course i : courseList) {
+        for (Course i : courseList.getListCourse()) {
             if (infoCommand.equals(i.getId())) {
                 System.out.println("The general information for " + infoCommand + " is as follows:");
-                System.out.println("Course ID   : " + i.getId());
-                System.out.println("YearSession : " + i.getYearsession());
-                System.out.println("Subject     : " + i.getSubject());
-                System.out.println("Course Code : " + i.getCourseNum());
-                System.out.println("Section     : " + i.getSection());
-                System.out.println("Course Name : " + i.getTitle());
-                System.out.println("Instructor  : " + i.getInstructor().getName());
-                System.out.println("Enrolled    : " + String.valueOf(i.getEnrolled()));
+                i.infoToString();
                 located = true;
 
                 System.out.println("Would you like to see the RateMyProfessor rating of "
                         + i.getInstructor().getName() + "?");
-                System.out.println("\tyes");
-                System.out.println("\tno");
+                System.out.println("\tyes or no");
                 Scanner instructorInput = new Scanner(System.in);
                 String instructorCommand = instructorInput.next();
                 if (instructorCommand.equals("yes")) {
@@ -210,7 +198,7 @@ public class CourseChooser {
         }
     }
 
-    private void search(ArrayList<Course> courseList) {
+    private void search(CourseList courseList) {
         System.out.println("What subject would you like to search for? Enter the 4-letter code.\n"
                 + "For example, 'CPSC' for computer science.");
         Scanner subjectInput = new Scanner(System.in);
@@ -226,15 +214,14 @@ public class CourseChooser {
         Scanner avgInput = new Scanner(System.in);
         String avgCommand = avgInput.next();
 
-        ArrayList<Course> searchResults = Searcher.searcher(courseList,
-                subjectCommand, yearCommand, parseInt(avgCommand));
+        CourseList searchResults = courseList.searcher(subjectCommand, yearCommand, parseInt(avgCommand));
 
-        if (searchResults.size() == 0) {
+        if (searchResults.getSize() == 0) {
             System.out.println("My condolences, nothing matched your search criteria.");
         } else {
             System.out.println("Check out deez beautiful results I found:\n");
             Integer count = 0;
-            for (Course i : searchResults) {
+            for (Course i : searchResults.getListCourse()) {
                 System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
                 count++;
             }
@@ -242,7 +229,7 @@ public class CourseChooser {
     }
 
 
-    public ArrayList<Course> populateCourseList() {
+    public CourseList populateCourseList() {
 
         //MATH:*
         Course c1 = getC1();
@@ -277,9 +264,8 @@ public class CourseChooser {
         //RANDOM:*
         Course c20 = getC20();
 
-        ArrayList<Course> courseDatabase = new ArrayList<>(Arrays.asList(c1, c2, c3, c4, c5, c6, c7, c8, c9,
-                c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20));
-
+        CourseList courseDatabase = new CourseList();
+        courseDatabase.addMultipleCourses(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20);
         return courseDatabase;
     }
 
