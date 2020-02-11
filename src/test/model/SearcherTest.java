@@ -169,15 +169,8 @@ class SearcherTest {
                         0, 0, 1, 3, 3, 6,
                         15, 9, 20));
 
-        Course c21 = new Course("UBC-2017W-PHIL-260-001", "2017W", "PHIL", "260",
-                "001", "SCIE & SOCIETY", new Instructor("Brain, Robert", "3.5/5"),
-                28, new Stats(76.67, 10.09, 90, 40, 23, 1, 2),
-                new Grades(0, 0, 0, 0, 1, 1, 0,
-                        0, 0, 0, 3, 6, 3,
-                        7, 2, 2));
-
         database = new ArrayList<>(Arrays.asList(c1, c2, c3, c4, c5, c6, c7, c8, c9,
-                c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20, c21));
+                c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20));
     }
 
     @Test
