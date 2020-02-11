@@ -1,8 +1,7 @@
 package ui;
 
 import model.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -19,6 +18,8 @@ public class CourseChooser {
     //MODIFIES: this
     //EFFECTS:
 
+    //**Change methods to "worklist options" and "course info" to cut down on program
+    // then make calls to the methods in those blocks
     public void runProgram() {
         CourseList myList = new CourseList();
         CourseList courseList = populateCourseList();
@@ -32,54 +33,67 @@ public class CourseChooser {
             command = input.next();
             command = command.toLowerCase();
 
-            switch (command) {
-                case "q":
-                    //exits the application
-                    runApp = false;
-                    break;
-
-                case "search":
-                    //prompts the user for search parameters
-                    search(courseList);
-                    break;
-
-                case "info" :
-                    //returns general information about a specific course
-                    info(courseList);
-                    break;
-
-                case "grades" :
-                    //returns the grade distribution when prompted for a course ID
-                    grades(courseList);
-                    break;
-
-                case "stats" :
-                    //provides the in-depth statistics of a specific course when prompted for a courseID
-                    stats(courseList);
-                    break;
-
-                case "add" :
-                    //prompts the user for a course ID
-                    //adds the course with the given ID to their myList
-                    addCourse(myList, courseList);
-                    break;
-
-                case "view" :
-                    //view the courses in my worklist
-                    viewMyList(myList);
-                    break;
-
-                case "remove" :
-                    //remove a course from the worklist
-                    removeCourse(myList);
-                    break;
-
-                default:
-                    System.out.println("That ain't an option, homie. Try again.");
-            }
+            runApp = options(myList, courseList, runApp, command);
         }
-
         System.out.println("\nLater, skater.");
+    }
+
+    private boolean options(CourseList myList, CourseList courseList, boolean runApp, String command) {
+
+        switch (command) {
+            case "q":
+                //exits the application
+                runApp = false;
+                break;
+
+            case "search":
+                //prompts the user for search parameters
+                search(courseList);
+                break;
+
+            case "info" :
+                //returns general information about a specific course
+                info(courseList);
+                break;
+
+            case "grades" :
+                //returns the grade distribution when prompted for a course ID
+                grades(courseList);
+                break;
+
+            case "stats" :
+                //provides the in-depth statistics of a specific course when prompted for a courseID
+                stats(courseList);
+                break;
+
+            default:
+                courseListOptions(myList, courseList,command);
+        }
+        return runApp;
+    }
+
+    private void courseListOptions(CourseList myList, CourseList courseList, String input) {
+        switch (input) {
+
+            case "add":
+                //prompts the user for a course ID
+                //adds the course with the given ID to their myList
+                addCourse(myList, courseList);
+                return;
+
+            case "view":
+                //view the courses in my worklist
+                viewMyList(myList);
+                break;
+
+            case "remove":
+                //remove a course from the worklist
+                removeCourse(myList);
+                break;
+
+            default:
+                System.out.println("That ain't an option, homie. Try again.");
+        }
     }
 
     private void removeCourse(CourseList myList) {
@@ -112,6 +126,7 @@ public class CourseChooser {
             }
         }
     }
+
 
     private void addCourse(CourseList myList, CourseList courseList) {
         System.out.println("Provide the course ID for the class you would like to add in the following"
@@ -184,8 +199,7 @@ public class CourseChooser {
                 located = true;
 
                 System.out.println("Would you like to see the RateMyProfessor rating of "
-                        + i.getInstructor().getName() + "?");
-                System.out.println("\tyes or no");
+                        + i.getInstructor().getName() + "? " + "Type 'yes' or 'no'.");
                 Scanner instructorInput = new Scanner(System.in);
                 String instructorCommand = instructorInput.next();
                 if (instructorCommand.equals("yes")) {
