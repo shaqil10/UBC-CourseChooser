@@ -10,4 +10,13 @@ public class Instructor {
     }
     // second field for link to RateMyProfessor
     // possibly a field that grabs the Professor Rating
+
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRating() {
+        return rating;
+    }
 }

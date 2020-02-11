@@ -40,89 +40,205 @@ public class CourseChooser {
                     runApp = false;
                     break;
 
-                case "s":
+                case "search":
                     //prompts the user for search parameters
-                    System.out.println("What subject would you like to search for? Enter the 4-letter code.\n"
-                            + "For example, 'CPSC' for computer science.");
-                    Scanner subjectInput = new Scanner(System.in);
-                    String subjectCommand = subjectInput.next();
-
-                    System.out.println("What year level would you like to search for? Enter one number.\n"
-                            + "For example, '2' for a 2nd year course.");
-                    Scanner yearInput = new Scanner(System.in);
-                    String yearCommand = yearInput.next();
-
-                    System.out.println("What is the lowest course average you would like to consider in your search?\n"
-                            + "For example, if you want only courses with an average of 75 or higher: enter '75'.");
-                    Scanner avgInput = new Scanner(System.in);
-                    String avgCommand = avgInput.next();
-
-                    ArrayList<Course> searchResults = Searcher.searcher(courseList,
-                            subjectCommand, yearCommand, parseInt(avgCommand));
-
-                    if (searchResults.size() == 0) {
-                        System.out.println("My condolences, nothing matched your search criteria.");
-                    } else {
-                        System.out.println("Check out deez beautiful results I found:\n");
-                        for (Course i : searchResults) {
-                            System.out.println(i.getId());
-                        }
-                    }
-
-
+                    search(courseList);
 
                     break;
 
-                case "a" :
+                case "info" :
+                    //returns general information about a specific course
+                    info(courseList);
+                    break;
+
+
+                case "grades" :
+                    //returns the grade distribution when prompted for a course ID
+                    grades(courseList);
+                    break;
+
+                case "stats" :
+                    //provides the in-depth statistics of a specific course when prompted for a courseID
+                    stats(courseList);
+                    break;
+
+                case "add" :
                     //prompts the user for a course ID
                     //adds the course with the given ID to their myList
-                    System.out.println("Provide the course ID for the class you would like to add in the following"
-                            + " format: UBC-yearsession-subject-coursenum-section\n"
-                            + "For example, UBC-2018W-MATH-100-101");
-                    Scanner courseInput = new Scanner(System.in);
-                    String courseCommand = courseInput.next();
-                    boolean added = false;
-                    for (Course i :courseList) {
-                        if (courseCommand.equals(i.getId())) {
-                            myList.add(i);
-                            System.out.println("I added " + i.getId() + " to your courselist!");
-                            added = true;
-                        }
-                    }
-                    if (!added) {
-                        System.out.println("Sorry, I couldn't find that course!");
-                    }
+                    addCourse(myList, courseList);
                     break;
 
-                case "v" :
+                case "view" :
                     //view the courses in my worklist
-                    if (myList.size() == 0) {
-                        System.out.println("You ain't got any courses in your list, homedrizzle.");
-                    } else {
-                        System.out.println("Ay baybay, these are the courses in your worklist:");
-                        for (Course i: myList) {
-                            System.out.println(i.getId());
-                        }
-                    }
+                    viewMyList(myList);
                     break;
 
-                case "r" :
+                case "remove" :
                     //remove a course from the worklist
-                    if (myList.size() == 0) {
-                        System.out.println("You ain't got any courses in your list, homedrizzle.")
-                    } else {
-                        System.out.println("Provide the index of which course you would like to remove (zero-indexed)");
+                    removeCourse(myList);
+                    break;
 
-                    }
                 default:
                     System.out.println("That ain't an option, homie. Try again.");
             }
-
-
-
         }
 
         System.out.println("\nLater, skater.");
+    }
+
+    private void removeCourse(ArrayList<Course> myList) {
+        if (myList.size() == 0) {
+            System.out.println("You ain't got any courses in your list, homedrizzle.");
+        } else {
+            System.out.println("Provide the index of which course you would like to remove:\n"
+                    + "(indexes are found to the right of the list entry)");
+            Scanner indexRemove = new Scanner(System.in);
+            String indexCommand = indexRemove.next();
+            myList.remove(parseInt(indexCommand));
+            System.out.println("You're the boss. That index is gone! Here's your updated list:");
+            Integer count = 0;
+            for (Course i: myList) {
+                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
+                count++;
+            }
+        }
+    }
+
+    private void viewMyList(ArrayList<Course> myList) {
+        if (myList.size() == 0) {
+            System.out.println("You ain't got any courses in your list, homedrizzle.");
+        } else {
+            System.out.println("Ay baybay, these are the courses in your worklist:");
+            Integer count = 0;
+            for (Course i: myList) {
+                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
+                count++;
+            }
+        }
+    }
+
+    private void addCourse(ArrayList<Course> myList, ArrayList<Course> courseList) {
+        System.out.println("Provide the course ID for the class you would like to add in the following"
+                + " format: UBC-yearsession-subject-coursenum-section\n"
+                + "For example, UBC-2018W-MATH-100-101");
+        Scanner courseInput = new Scanner(System.in);
+        String courseCommand = courseInput.next();
+        boolean added = false;
+        for (Course i :courseList) {
+            if (courseCommand.equals(i.getId())) {
+                myList.add(i);
+                System.out.println("I added " + i.getId() + " to your courselist!");
+                added = true;
+            }
+        }
+        if (!added) {
+            System.out.println("Sorry, I couldn't find that course!");
+        }
+    }
+
+    private void stats(ArrayList<Course> courseList) {
+        System.out.println("Provide the course ID for the class you would like to view in the following"
+                + " format: UBC-yearsession-subject-coursenum-section\n"
+                + "For example, UBC-2018W-MATH-100-101");
+        Scanner statInput = new Scanner(System.in);
+        String statCommand = statInput.next();
+        boolean find = false;
+        for (Course i : courseList) {
+            if (statCommand.equals(i.getId())) {
+                System.out.println("The statistics for " + statCommand + " are as follows:");
+                i.getStats().statsToString();
+                find = true;
+            }
+        }
+        if (!find) {
+            System.out.println("Sorry, I couldn't find that course!");
+        }
+    }
+
+    private void grades(ArrayList<Course> courseList) {
+        System.out.println("Provide the course ID for the class you would like to view in the following"
+                + " format: UBC-yearsession-subject-coursenum-section\n"
+                + "For example, UBC-2018W-MATH-100-101");
+        Scanner gradeInput = new Scanner(System.in);
+        String gradeCommand = gradeInput.next();
+        boolean found = false;
+        for (Course i : courseList) {
+            if (gradeCommand.equals(i.getId())) {
+                System.out.println("The grades for " + gradeCommand + " are as follows:");
+                i.getGrades().gradesToString();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Sorry, I couldn't find that course!");
+        }
+    }
+
+    private void info(ArrayList<Course> courseList) {
+        System.out.println("Provide the course ID for the class you would like to view in the following"
+                + " format: UBC-yearsession-subject-coursenum-section\n"
+                + "For example, UBC-2018W-MATH-100-101");
+        Scanner infoInput = new Scanner(System.in);
+        String infoCommand = infoInput.next();
+        boolean located = false;
+        for (Course i : courseList) {
+            if (infoCommand.equals(i.getId())) {
+                System.out.println("The general information for " + infoCommand + " is as follows:");
+                System.out.println("Course ID   : " + i.getId());
+                System.out.println("YearSession : " + i.getYearsession());
+                System.out.println("Subject     : " + i.getSubject());
+                System.out.println("Course Code : " + i.getCourseNum());
+                System.out.println("Section     : " + i.getSection());
+                System.out.println("Course Name : " + i.getTitle());
+                System.out.println("Instructor  : " + i.getInstructor().getName());
+                System.out.println("Enrolled    : " + String.valueOf(i.getEnrolled()));
+                located = true;
+
+                System.out.println("Would you like to see the RateMyProfessor rating of "
+                        + i.getInstructor().getName() + "?");
+                System.out.println("\tyes");
+                System.out.println("\tno");
+                Scanner instructorInput = new Scanner(System.in);
+                String instructorCommand = instructorInput.next();
+                if (instructorCommand.equals("yes")) {
+                    System.out.println("RateMyProfessor Rating : " + i.getInstructor().getRating());
+                }
+            }
+        }
+        if (!located) {
+            System.out.println("Sorry, I couldn't find that course!");
+        }
+    }
+
+    private void search(ArrayList<Course> courseList) {
+        System.out.println("What subject would you like to search for? Enter the 4-letter code.\n"
+                + "For example, 'CPSC' for computer science.");
+        Scanner subjectInput = new Scanner(System.in);
+        String subjectCommand = subjectInput.next();
+
+        System.out.println("What year level would you like to search for? Enter one number.\n"
+                + "For example, '2' for a 2nd year course.");
+        Scanner yearInput = new Scanner(System.in);
+        String yearCommand = yearInput.next();
+
+        System.out.println("What is the lowest course average you would like to consider in your search?\n"
+                + "For example, if you want only courses with an average of 75 or higher: enter '75'.");
+        Scanner avgInput = new Scanner(System.in);
+        String avgCommand = avgInput.next();
+
+        ArrayList<Course> searchResults = Searcher.searcher(courseList,
+                subjectCommand, yearCommand, parseInt(avgCommand));
+
+        if (searchResults.size() == 0) {
+            System.out.println("My condolences, nothing matched your search criteria.");
+        } else {
+            System.out.println("Check out deez beautiful results I found:\n");
+            Integer count = 0;
+            for (Course i : searchResults) {
+                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
+                count++;
+            }
+        }
     }
 
 
@@ -352,11 +468,14 @@ public class CourseChooser {
     // EFFECTS: displays menu of options to user
     private void displayStartMenu() {
         System.out.println("\nPick one of these bad boys:");
-        System.out.println("\ta -> add a course to your worklist");
-        System.out.println("\tr -> remove a course to your worklist");
-        System.out.println("\ts -> search for courses");
-        System.out.println("\tv -> view your worklist");
-        System.out.println("\tq -> quit");
+        System.out.println("\tadd    -> add a course to your worklist");
+        System.out.println("\tgrades -> view grade distribution for a specific course");
+        System.out.println("\tinfo   -> view general info on a specific course");
+        System.out.println("\tstats  -> view detailed statistics for a specific course");
+        System.out.println("\tremove -> remove a course from your worklist");
+        System.out.println("\tsearch -> search for courses");
+        System.out.println("\tview   -> view your worklist");
+        System.out.println("\tq      -> quit");
     }
 
 }

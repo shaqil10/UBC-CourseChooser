@@ -42,4 +42,33 @@ public class Course {
         return stats.getAverage();
     }
 
+    public Grades getGrades() {
+        return grades;
+    }
+
+    public String getYearsession() {
+        return yearsession;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public int getEnrolled() {
+        return enrolled;
+    }
+
+    public Stats getStats() {
+        return stats;
+
+
+    }
 }
