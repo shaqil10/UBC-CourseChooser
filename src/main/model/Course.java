@@ -70,7 +70,8 @@ public class Course {
         return stats;
     }
 
-    public void infoToString() {
+    //EFFECTS: Prints out all of the general information for a course
+    public String infoToString() {
         System.out.println("Course ID   : " + getId());
         System.out.println("YearSession : " + getYearsession());
         System.out.println("Subject     : " + getSubject());
@@ -79,5 +80,6 @@ public class Course {
         System.out.println("Course Name : " + getTitle());
         System.out.println("Instructor  : " + getInstructor().getName());
         System.out.println("Enrolled    : " + String.valueOf(getEnrolled()));
+        return "Yay";
     }
 }

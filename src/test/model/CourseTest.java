@@ -62,4 +62,9 @@ class CourseTest {
     public void testGetGrades() {
         assertEquals(11,c15.getGrades().getLessThan50());
     }
+
+    @Test
+    public void testInfoToString() {
+        assertEquals("Yay", c15.infoToString());
+    }
 }

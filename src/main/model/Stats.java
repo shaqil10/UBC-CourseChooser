@@ -49,7 +49,8 @@ public class Stats {
         return withdrew;
     }
 
-    public void statsToString() {
+    //EFFECTS: Prints out all of the statistics for a given course
+    public String statsToString() {
         System.out.println("Mean     : " + String.valueOf(getAverage()));
         System.out.println("StDev    : " + String.valueOf(getStDev()));
         System.out.println("High     : " + String.valueOf(getHigh()));
@@ -57,5 +58,6 @@ public class Stats {
         System.out.println("Pass     : " + String.valueOf(getPass()));
         System.out.println("Fail     : " + String.valueOf(getFail()));
         System.out.println("Withdrew : " + String.valueOf(getWithdrew()));
+        return "Yay";
     }
 }

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 public class CourseList {
     ArrayList<Course> listCourse;
 
+    //EFFECTS: Constructs a CourseList object with an ArrayList<Course> field
     public CourseList() {
         listCourse = new ArrayList<>();
     }
@@ -14,14 +15,22 @@ public class CourseList {
         return listCourse.size();
     }
 
+    //MODIFIES: this
+    //EFFECTS: add the supplied Course c to the CourseList at the end of the list
     public void addCourse(Course c) {
         listCourse.add(c);
     }
 
+    //MODIFIES: this
+    //EFFECTS: removes the Course at the supplied index on the list and shifts the elements at higher indices back one
+    //         if an index is provided that doesn't exist, an error is thrown
     public void removeCourse(int index) {
         listCourse.remove(index);
     }
 
+
+    //MODIFIES: this
+    //EFFECTS: adds multiple Course objects supplied in the parameters to the CourseList
     public void addMultipleCourses(Course...args) {
         for (Course arg: args) {
             listCourse.add(arg);
@@ -40,6 +49,10 @@ public class CourseList {
         return listCourse.contains(c);
     }
 
+
+    //EFFECTS: searches through this CourseList for courses that match the course subject, yearlevel, and an
+    //         average greater than or equal to the meanThreshold supplied
+    //         returns a new CourseList with the courses that match the criteria
     public CourseList searcher(String subject, String yearLevel, double meanThreshold) {
         ArrayList<Course> searchResults = (ArrayList<Course>) listCourse.stream()
                 .filter(x -> subject.equals(x.getSubject())

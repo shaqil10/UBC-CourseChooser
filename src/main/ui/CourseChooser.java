@@ -15,11 +15,8 @@ public class CourseChooser {
         runProgram();
     }
 
-    //MODIFIES: this
-    //EFFECTS:
 
-    //**Change methods to "worklist options" and "course info" to cut down on program
-    // then make calls to the methods in those blocks
+    // EFFECTS: runs the program by prompting the user for input choices
     public void runProgram() {
         CourseList myList = new CourseList();
         CourseList courseList = populateCourseList();
@@ -242,6 +239,7 @@ public class CourseChooser {
         }
     }
 
+    //EFFECTS: builds the course database
     public CourseList populateCourseList() {
 
         //MATH:*

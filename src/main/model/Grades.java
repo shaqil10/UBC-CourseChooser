@@ -103,7 +103,8 @@ public class Grades {
         this.ninetyTo100 = ninetyTo100;
     }
 
-    public void gradesToString() {
+    //EFFECTS: Prints out all of the grade distribution values of a given Course
+    public String gradesToString() {
         System.out.println("0-9 %    : " + String.valueOf(getZeroTo9()));
         System.out.println("10-19 %  : " + String.valueOf(getTenTo19()));
         System.out.println("20-29 %  : " + String.valueOf(getTwentyTo29()));
@@ -120,6 +121,7 @@ public class Grades {
         System.out.println("80-84 %  : " + String.valueOf(getEightyTo84()));
         System.out.println("85-89 %  : " + String.valueOf(getEightyFiveTo89()));
         System.out.println("90-100 % : " + String.valueOf(getNinetyTo100()));
+        return "Yay";
     }
 
 }
