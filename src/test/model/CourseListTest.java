@@ -246,8 +246,18 @@ class CourseListTest {
     }
 
     @Test
+    public void testSetListCourse() {
+        ArrayList<Course> dummyList = new ArrayList<>();
+        dummyList.add(c1);
+        dummyList.add(c7);
+        dummyList.add(c20);
+        testList.setListCourse(dummyList);
+        assertEquals(dummyList, testList.getListCourse());
+    }
+
+    @Test
     public void testSubjectFilter() {
-        CourseList result = testDatabase.searcher("MATH", "1", 60.0);
+        CourseList result = testDatabase.searcher("MATH", "1", 0.0);
         assertEquals(result.getSize(), 4);
         assertEquals(c1,result.getCourseAtIndex(0));
         assertEquals(c2,result.getCourseAtIndex(1));

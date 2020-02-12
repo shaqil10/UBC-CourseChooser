@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GradesTest {
     Course c15;
     Grades c15grades;
+
     @BeforeEach
     public void runBefore() {
         c15 = new Course("UBC-2017W-COMM-457-101", "2017W", "COMM", "457",
@@ -21,22 +22,102 @@ class GradesTest {
     }
 
     @Test
-    public void testGetters() {
+    public void test0to9() {
         assertEquals("0", String.valueOf(c15grades.getZeroTo9()));
+    }
+
+    @Test
+    public void test10to19() {
         assertEquals("0", String.valueOf(c15grades.getTenTo19()));
+    }
+
+    @Test
+    public void test20to29() {
         assertEquals("0", String.valueOf(c15grades.getTwentyTo29()));
-        assertEquals("2" ,String.valueOf(c15grades.getThirtyTo39()));
+    }
+
+    @Test
+    public void test30to39() {
+        assertEquals("2", String.valueOf(c15grades.getThirtyTo39()));
+    }
+
+    @Test
+    public void test40to49() {
         assertEquals("9", String.valueOf(c15grades.getFortyTo49()));
-        assertEquals("11" , String.valueOf(c15grades.getLessThan50()));
+    }
+
+    @Test
+    public void testLessThan50() {
+        assertEquals("11", String.valueOf(c15grades.getLessThan50()));
+    }
+
+    @Test
+    public void test50t54() {
         assertEquals("7", String.valueOf(c15grades.getFiftyTo54()));
+    }
+
+    @Test
+    public void tes55to59() {
         assertEquals("9", String.valueOf(c15grades.getFiftyFiveTo59()));
+    }
+
+    @Test
+    public void test60to63() {
         assertEquals("13", String.valueOf(c15grades.getSixtyTo63()));
+    }
+
+    @Test
+    public void test64to67() {
         assertEquals("10", String.valueOf(c15grades.getSixtyFourTo67()));
+    }
+
+    @Test
+    public void test68to71() {
         assertEquals("10", String.valueOf(c15grades.getSixtyEightTo71()));
+    }
+
+    @Test
+    public void test72to75() {
         assertEquals("7", String.valueOf(c15grades.getSeventyTwoTo75()));
+    }
+
+    @Test
+    public void test76to79() {
         assertEquals("12", String.valueOf(c15grades.getSeventySixTo79()));
+    }
+
+    @Test
+    public void test80to84() {
         assertEquals("15", String.valueOf(c15grades.getEightyTo84()));
+    }
+
+    @Test
+    public void test85to89() {
         assertEquals("15", String.valueOf(c15grades.getEightyFiveTo89()));
-        assertEquals("9" , String.valueOf(c15grades.getNinetyTo100()));
+    }
+
+    @Test
+    public void test90to100() {
+        assertEquals("9", String.valueOf(c15grades.getNinetyTo100()));
+    }
+
+    @Test
+    public void testGradestoString() {
+        assertEquals("0-9 %    : 0","0-9 %    : " + String.valueOf(c15grades.getZeroTo9()));
+        assertEquals("10-19 %  : 0","10-19 %  : " + String.valueOf(c15grades.getTenTo19()));
+        assertEquals("20-29 %  : 0","20-29 %  : " + String.valueOf(c15grades.getTwentyTo29()));
+        assertEquals("30-39 %  : 2","30-39 %  : " + String.valueOf(c15grades.getThirtyTo39()));
+        assertEquals("40-49 %  : 9","40-49 %  : " + String.valueOf(c15grades.getFortyTo49()));
+        assertEquals("<50 %    : 11","<50 %    : " + String.valueOf(c15grades.getLessThan50()));
+        assertEquals("50-54 %  : 7","50-54 %  : " + String.valueOf(c15grades.getFiftyTo54()));
+        assertEquals("55-59 %  : 9","55-59 %  : " + String.valueOf(c15grades.getFiftyFiveTo59()));
+        assertEquals("60-63 %  : 13","60-63 %  : " + String.valueOf(c15grades.getSixtyTo63()));
+        assertEquals("64-67 %  : 10","64-67 %  : " + String.valueOf(c15grades.getSixtyFourTo67()));
+        assertEquals("68-71 %  : 10","68-71 %  : " + String.valueOf(c15grades.getSixtyEightTo71()));
+        assertEquals("72-75 %  : 7","72-75 %  : " + String.valueOf(c15grades.getSeventyTwoTo75()));
+        assertEquals("76-79 %  : 12","76-79 %  : " + String.valueOf(c15grades.getSeventySixTo79()));
+        assertEquals("80-84 %  : 15","80-84 %  : " + String.valueOf(c15grades.getEightyTo84()));
+        assertEquals("85-89 %  : 15","85-89 %  : " + String.valueOf(c15grades.getEightyFiveTo89()));
+        assertEquals("90-100 % : 9","90-100 % : " + String.valueOf(c15grades.getNinetyTo100()));
     }
 }

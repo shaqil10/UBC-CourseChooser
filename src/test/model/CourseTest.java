@@ -19,15 +19,47 @@ class CourseTest {
     }
 
     @Test
-    public void testGetters() {
-         assertEquals("UBC-2017W-COMM-457-101", c15.getId());
-         assertEquals("2017W",c15.getYearsession());
-         assertEquals("COMM",c15.getSubject());
-         assertEquals("457", c15.getCourseNum());
-         assertEquals("101", c15.getSection());
-         assertEquals("FNDTLS FIN ACCT", c15.getTitle());
-         assertEquals("Sinclair, Scott", c15.getInstructor().getName());
-         assertEquals("4.5/5", c15.getInstructor().getRating());
+    public void testGetId() {
+        assertEquals("UBC-2017W-COMM-457-101", c15.getId());
+    }
+
+    @Test
+    public void testGetYearSession() {
+        assertEquals("2017W", c15.getYearsession());
+    }
+
+    @Test
+    public void testGetSubject() {
+        assertEquals("COMM", c15.getSubject());
+    }
+
+    @Test
+    public void testGetCourseNum() {
+        assertEquals("457", c15.getCourseNum());
+    }
+
+    @Test
+    public void testGetSection() {
+        assertEquals("101", c15.getSection());
+    }
+
+    @Test
+    public void testGetTitle() {
+        assertEquals("FNDTLS FIN ACCT", c15.getTitle());
+    }
+
+    @Test
+    public void testGetEnrolled() {
          assertEquals(121,c15.getEnrolled());
+    }
+
+    @Test
+    public void testGetStats() {
+        assertEquals(70.34, c15.getStats().getAverage());
+    }
+
+    @Test
+    public void testGetGrades() {
+        assertEquals(11,c15.getGrades().getLessThan50());
     }
 }

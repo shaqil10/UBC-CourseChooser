@@ -242,7 +242,6 @@ public class CourseChooser {
         }
     }
 
-
     public CourseList populateCourseList() {
 
         //MATH:*

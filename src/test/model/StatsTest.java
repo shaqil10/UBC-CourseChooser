@@ -22,14 +22,37 @@ class StatsTest {
     }
 
     @Test
-    public void testGetters() {
+    public void testGetAvg() {
         assertEquals(70.34, c15stats.getAverage());
-        assertEquals(14.74, c15stats.getStDev());
-        assertEquals(99, c15stats.getHigh());
-        assertEquals(32, c15stats.getLow());
-        assertEquals(107, c15stats.getPass());
-        assertEquals(11,c15stats.getFail());
-        assertEquals(3, c15stats.getWithdrew());
+    }
 
+    @Test
+    public void testGetStDev() {
+        assertEquals(14.74, c15stats.getStDev());
+    }
+
+    @Test
+    public void testGetHigh() {
+        assertEquals(99, c15stats.getHigh());
+    }
+
+    @Test
+    public void testGetLow() {
+        assertEquals(32, c15stats.getLow());
+    }
+
+    @Test
+    public void testGetPass() {
+        assertEquals(107, c15stats.getPass());
+    }
+
+    @Test
+    public void testGetFail() {
+        assertEquals(11, c15stats.getFail());
+    }
+
+    @Test
+    public void testGetWithdrew() {
+        assertEquals(3, c15stats.getWithdrew());
     }
 }

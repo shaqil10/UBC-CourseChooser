@@ -46,7 +46,13 @@ public class CourseList {
                         && yearLevel.equals(x.getCourseNum().substring(0,1))
                         && (meanThreshold <= x.getMean()))
                 .collect(Collectors.toList());
-        this.listCourse = searchResults;
-        return this;
+        CourseList results = new CourseList();
+        results.setListCourse(searchResults);
+        return results;
+    }
+
+
+    public void setListCourse(ArrayList<Course> listCourse) {
+        this.listCourse = listCourse;
     }
 }
