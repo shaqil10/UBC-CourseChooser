@@ -1,5 +1,6 @@
 package model;
 
+// models an instructor who teaches a course and their rating from RateMyProfessor
 public class Instructor {
     private String name;
     private String rating;

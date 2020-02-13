@@ -1,5 +1,6 @@
 package model;
 
+//models the in-depth grade distributions provided from UBC Pair
 public class Grades {
     private int zeroTo9;
     private int tenTo19;

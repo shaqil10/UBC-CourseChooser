@@ -5,7 +5,7 @@ import model.*;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
-
+//Runs the application
 public class CourseChooser {
 
     private Scanner input;

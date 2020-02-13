@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+//represents a collection of courses
 public class CourseList {
     ArrayList<Course> listCourse;
 

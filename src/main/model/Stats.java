@@ -1,5 +1,6 @@
 package model;
 
+// models a course's statistics that are provided from UBC Pair
 public class Stats {
     private double average;
     private double stDev;

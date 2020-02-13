@@ -1,5 +1,6 @@
 package model;
 
+//represents a course with all the necessary fields that UBC Pair supplies from grade distributions
 public class Course {
     private String id;
     private String yearsession;
