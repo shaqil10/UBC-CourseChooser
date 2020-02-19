@@ -1,10 +1,14 @@
 package model;
 
+import persistence.Reader;
+import persistence.Saveable;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 //represents a collection of courses
-public class CourseList {
+public class CourseList implements Saveable {
     ArrayList<Course> listCourse;
 
     //EFFECTS: Constructs a CourseList object with an ArrayList<Course> field
@@ -32,8 +36,8 @@ public class CourseList {
 
     //MODIFIES: this
     //EFFECTS: adds multiple Course objects supplied in the parameters to the CourseList
-    public void addMultipleCourses(Course...args) {
-        for (Course arg: args) {
+    public void addMultipleCourses(Course... args) {
+        for (Course arg : args) {
             listCourse.add(arg);
         }
     }
@@ -57,7 +61,7 @@ public class CourseList {
     public CourseList searcher(String subject, String yearLevel, double meanThreshold) {
         ArrayList<Course> searchResults = (ArrayList<Course>) listCourse.stream()
                 .filter(x -> subject.equals(x.getSubject())
-                        && yearLevel.equals(x.getCourseNum().substring(0,1))
+                        && yearLevel.equals(x.getCourseNum().substring(0, 1))
                         && (meanThreshold <= x.getMean()))
                 .collect(Collectors.toList());
         CourseList results = new CourseList();
@@ -68,5 +72,17 @@ public class CourseList {
 
     public void setListCourse(ArrayList<Course> listCourse) {
         this.listCourse = listCourse;
+    }
+
+    @Override
+    public void save(PrintWriter printWriter) {
+        for (int i = 0; i < this.getSize(); i++) {
+            if (i < (this.getSize() - 1)) {
+                printWriter.print(this.getCourseAtIndex(i).getId());
+                printWriter.print(Reader.DELIMITER);
+            } else {
+                printWriter.print(this.getCourseAtIndex(i).getId());
+            }
+        }
     }
 }

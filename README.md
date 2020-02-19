@@ -33,6 +33,6 @@ information in one platform would be extremely useful for myself and a great dea
 - As a user, I want to be able to delete entries from my worklist
 - As a user, I want to be able to get in-depth statistics and grade distributions for specific courses
 
-- As a user, I want to be able to save my personalized worklist to file when I exit the application
+- As a user, I want to have the option to be save my personalized worklist to file when I exit the application
 - As a user, I want to be able to re-load my personalized worklist from a saved file and continue working from 
 where I left off

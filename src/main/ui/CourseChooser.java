@@ -1,7 +1,14 @@
 package ui;
 
 import model.*;
+import persistence.Reader;
+import persistence.Writer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -9,8 +16,11 @@ import static java.lang.Integer.parseInt;
 //Runs the application
 
 public class CourseChooser {
-
+    private CourseList myList;
+    private CourseList courseList;
+    private boolean runApp;
     private Scanner input;
+    private static final String WORKLIST_FILE = "./data/worklist.txt";
 
     //EFFECTS: Run the Course Chooser application
     public CourseChooser() {
@@ -20,10 +30,10 @@ public class CourseChooser {
 
     // EFFECTS: runs the program by prompting the user for input choices
     public void runProgram() {
-        CourseList myList = new CourseList();
-        CourseList courseList = populateCourseList();
+        courseList = populateCourseList();
+        loadWorklist();
 
-        boolean runApp = true;
+        runApp = true;
         String command = null;
         input = new Scanner(System.in);
 
@@ -32,17 +42,17 @@ public class CourseChooser {
             command = input.next();
             command = command.toLowerCase();
 
-            runApp = options(myList, courseList, runApp, command);
+            runApp = courseOptions(myList, courseList, runApp, command);
         }
         System.out.println("\nLater, skater.");
     }
 
-    private boolean options(CourseList myList, CourseList courseList, boolean runApp, String command) {
+    private boolean courseOptions(CourseList myList, CourseList courseList, boolean runApp, String command) {
 
         switch (command) {
             case "q":
-                //exits the application
-                runApp = false;
+                //checks to see if user wants to save worklist and exits the application
+                runApp = quitApp();
                 break;
 
             case "search":
@@ -90,9 +100,53 @@ public class CourseChooser {
                 removeCourse(myList);
                 break;
 
+            case "save":
+                //saves worklist to file
+                saveWorklist();
+                break;
+
             default:
                 System.out.println("That ain't an option, homie. Try again.");
         }
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: loads the worklist from WORKLIST_FILE, if that file exists;
+    // otherwise initializes a new empty worklist
+    private void loadWorklist() {
+        try {
+            myList = Reader.readWorklist(new File(WORKLIST_FILE), courseList);
+        } catch (IOException e) {
+            myList = new CourseList();
+        }
+    }
+
+    // EFFECTS: saves state of personalized worklist to WORKLIST_FILE
+    private void saveWorklist() {
+        try {
+            Writer writer = new Writer(new File(WORKLIST_FILE));
+            writer.write(myList);
+            writer.close();
+            System.out.println("Your worklist was saved to file " + WORKLIST_FILE + " !");
+        } catch (FileNotFoundException e) {
+            System.out.println("Oof, I couldn't save your worklist to " + WORKLIST_FILE + " :(");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // this is due to a programming error
+        }
+    }
+
+    //EFFECTS: prompts user to see if they want to save their worklist, and saves it if yes and then quits
+    // the application, otherwise just quits
+    private boolean quitApp() {
+        System.out.println("Hold up playa, would you like to save your worklist?");
+        System.out.println("Type 'yes' or 'no'.");
+        String saveCommand = input.next();
+        if (saveCommand.equals("yes")) {
+            saveWorklist();
+        }
+        return false;
     }
 
     private void removeCourse(CourseList myList) {
@@ -101,8 +155,7 @@ public class CourseChooser {
         } else {
             System.out.println("Provide the index of which course you would like to remove:\n"
                     + "(indexes are found to the right of the list entry)");
-            Scanner indexRemove = new Scanner(System.in);
-            String indexCommand = indexRemove.next();
+            String indexCommand = input.next();
             myList.removeCourse(parseInt(indexCommand));
             System.out.println("You're the boss. That index is gone! Here's your updated list:");
             Integer count = 0;
@@ -131,8 +184,7 @@ public class CourseChooser {
         System.out.println("Provide the course ID for the class you would like to add in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"
                 + "For example, UBC-2018W-MATH-100-101");
-        Scanner courseInput = new Scanner(System.in);
-        String courseCommand = courseInput.next();
+        String courseCommand = input.next();
         boolean added = false;
         for (Course i :courseList.getListCourse()) {
             if (courseCommand.equals(i.getId())) {
@@ -150,8 +202,7 @@ public class CourseChooser {
         System.out.println("Provide the course ID for the class you would like to view in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"
                 + "For example, UBC-2018W-MATH-100-101");
-        Scanner statInput = new Scanner(System.in);
-        String statCommand = statInput.next();
+        String statCommand = input.next();
         boolean find = false;
         for (Course i : courseList.getListCourse()) {
             if (statCommand.equals(i.getId())) {
@@ -169,8 +220,7 @@ public class CourseChooser {
         System.out.println("Provide the course ID for the class you would like to view in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"
                 + "For example, UBC-2018W-MATH-100-101");
-        Scanner gradeInput = new Scanner(System.in);
-        String gradeCommand = gradeInput.next();
+        String gradeCommand = input.next();
         boolean found = false;
         for (Course i : courseList.getListCourse()) {
             if (gradeCommand.equals(i.getId())) {
@@ -188,8 +238,7 @@ public class CourseChooser {
         System.out.println("Provide the course ID for the class you would like to view in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"
                 + "For example, UBC-2018W-MATH-100-101");
-        Scanner infoInput = new Scanner(System.in);
-        String infoCommand = infoInput.next();
+        String infoCommand = input.next();
         boolean located = false;
         for (Course i : courseList.getListCourse()) {
             if (infoCommand.equals(i.getId())) {
@@ -199,8 +248,7 @@ public class CourseChooser {
 
                 System.out.println("Would you like to see the RateMyProfessor rating of "
                         + i.getInstructor().getName() + "? " + "Type 'yes' or 'no'.");
-                Scanner instructorInput = new Scanner(System.in);
-                String instructorCommand = instructorInput.next();
+                String instructorCommand = input.next();
                 if (instructorCommand.equals("yes")) {
                     System.out.println("RateMyProfessor Rating : " + i.getInstructor().getRating());
                 }
@@ -214,18 +262,15 @@ public class CourseChooser {
     private void search(CourseList courseList) {
         System.out.println("What subject would you like to search for? Enter the 4-letter code.\n"
                 + "For example, 'CPSC' for computer science.");
-        Scanner subjectInput = new Scanner(System.in);
-        String subjectCommand = subjectInput.next();
+        String subjectCommand = input.next();
 
         System.out.println("What year level would you like to search for? Enter one number.\n"
                 + "For example, '2' for a 2nd year course.");
-        Scanner yearInput = new Scanner(System.in);
-        String yearCommand = yearInput.next();
+        String yearCommand = input.next();
 
         System.out.println("What is the lowest course average you would like to consider in your search?\n"
                 + "For example, if you want only courses with an average of 75 or higher: enter '75'.");
-        Scanner avgInput = new Scanner(System.in);
-        String avgCommand = avgInput.next();
+        String avgCommand = input.next();
 
         CourseList searchResults = courseList.searcher(subjectCommand, yearCommand, parseInt(avgCommand));
 
@@ -472,6 +517,7 @@ public class CourseChooser {
         System.out.println("\tinfo   -> view general info on a specific course");
         System.out.println("\tstats  -> view detailed statistics for a specific course");
         System.out.println("\tremove -> remove a course from your worklist");
+        System.out.println("\tsave   -> save your personalized worklist");
         System.out.println("\tsearch -> search for courses");
         System.out.println("\tview   -> view your worklist");
         System.out.println("\tq      -> quit");
