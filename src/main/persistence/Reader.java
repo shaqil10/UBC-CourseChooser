@@ -49,6 +49,7 @@ public class Reader {
             for (Course c : database.getListCourse()) {
                 if (i.equals(c.getId())) {
                     savedWorklist.addCourse(c);
+                    break;
                 }
             }
         }

@@ -180,6 +180,8 @@ public class CourseChooser {
     }
 
 
+// MODIFIES: myList
+// EFFECTS: Finds the provided course in the database and adds it to the personal worklist
     private void addCourse(CourseList myList, CourseList courseList) {
         System.out.println("Provide the course ID for the class you would like to add in the following"
                 + " format: UBC-yearsession-subject-coursenum-section\n"

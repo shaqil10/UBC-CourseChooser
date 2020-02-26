@@ -106,7 +106,9 @@ class ReaderTest {
     void testIOException() {
         try {
             Reader.readWorklist(new File("./path/does/not/exist/testAccount.txt"),testDatabase);
+            fail("oops");
         } catch (IOException e) {
+            System.out.println("KOBE");
             // expected
         }
     }
