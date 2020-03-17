@@ -1,0 +1,114 @@
+package ui.pages;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static javax.swing.BorderFactory.createTitledBorder;
+
+public class SearchCriteria extends JPanel {
+    private SearchPage searchPage;
+    private JLabel subjectLabel;
+    private JLabel yearLabel;
+    private JLabel averageLabel;
+    private JButton searchButton;
+    JComboBox<String> subjectField;
+    JComboBox<String> yearField;
+    JTextField averageField;
+
+    public SearchCriteria(SearchPage searchPage) {
+        this.searchPage = searchPage;
+        Dimension dim = getPreferredSize();
+        dim.width = 300;
+        dim.height = 300;
+        setPreferredSize(dim);
+        subjectLabel = new JLabel("Subject:");
+        yearLabel = new JLabel("Year:");
+        averageLabel = new JLabel("Desired Average:");
+
+        String [] subjects = {"CPSC", "MATH", "CHEM", "COMM"};
+        subjectField = new JComboBox<>(subjects);
+        String [] years = {"1","2","3","4"};
+        yearField = new JComboBox<>(years);
+        averageField = new JTextField("Enter a number between 0-100",16);
+
+        searchButton = new JButton("Search!");
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                searchPage.removeText();
+                Object subject = subjectField.getSelectedItem();
+                Object year = yearField.getSelectedItem();
+                String average = averageField.getText();
+
+                searchPage.produceSearchResults(subject,year,average);
+            }
+        });
+
+        Border titleBorder = BorderFactory.createTitledBorder("Fill in the following search criteria:");
+        Border innerBorder = BorderFactory.createLineBorder(Color.BLACK,1,true);
+        setBorder(BorderFactory.createCompoundBorder(innerBorder,titleBorder));
+
+
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gc = new GridBagConstraints();
+
+        //FIRST ROW//
+        gc.weightx = 1;
+        gc.weighty = 1;
+
+        gc.gridx = 0;
+        gc.gridy = 0;
+        gc.fill = GridBagConstraints.NONE;
+        gc.anchor = GridBagConstraints.LINE_END;
+        gc.insets = new Insets(0,0,0,5);
+
+        add(subjectLabel, gc);
+
+        gc.gridx = 1;
+        gc.gridy = 0;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(subjectField,gc);
+
+        //SECOND ROW//
+        gc.weightx = 1;
+        gc.weighty = 1;
+
+        gc.gridx = 0;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(yearLabel,gc);
+
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(yearField,gc);
+
+        //THIRD ROW//
+        gc.weightx = 1;
+        gc.weighty = 1;
+
+        gc.gridx = 0;
+        gc.gridy = 2;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(averageLabel,gc);
+
+        gc.gridx = 1;
+        gc.gridy = 2;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(averageField,gc);
+
+        //BUTTON ROW//
+        gc.weightx = 1;
+        gc.weighty = 2.0;
+
+        gc.gridx = 1;
+        gc.gridy = 3;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(searchButton,gc);
+
+
+    }
+}

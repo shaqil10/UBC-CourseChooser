@@ -1,37 +1,57 @@
 package ui;
 
+import javafx.scene.layout.BorderWidths;
 import model.*;
 import persistence.Reader;
 import persistence.Writer;
+import ui.pages.CourseInfoPage;
+import ui.pages.SearchPage;
+import ui.pages.Toolbar;
+import ui.pages.WorklistPage;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
 //Runs the application
 
-public class CourseChooser {
+public class CourseChooser extends JFrame {
     private CourseList myList;
     private CourseList courseList;
     private boolean runApp;
     private Scanner input;
+    private Toolbar toolbar;
     private static final String WORKLIST_FILE = "./data/worklist.txt";
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 700;
 
     //EFFECTS: Run the Course Chooser application
     public CourseChooser() {
-        runProgram();
+        super("UBC Course Chooser");
+        //initializeFields();
+        initializeGraphics();
+    }
+
+    private void initializeGraphics() {
+        this.toolbar = new Toolbar();
+
+        setMinimumSize(new Dimension(WIDTH,HEIGHT));
+        toolbar.addComponentToPane(getContentPane());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
     }
 
 
-    // EFFECTS: runs the program by prompting the user for input choices
-    public void runProgram() {
+    private void initializeFields() {
         courseList = populateCourseList();
         loadWorklist();
+
 
         runApp = true;
         String command = null;
@@ -60,23 +80,23 @@ public class CourseChooser {
                 search(courseList);
                 break;
 
-            case "info" :
+            case "info":
                 //returns general information about a specific course
                 info(courseList);
                 break;
 
-            case "grades" :
+            case "grades":
                 //returns the grade distribution when prompted for a course ID
                 grades(courseList);
                 break;
 
-            case "stats" :
+            case "stats":
                 //provides the in-depth statistics of a specific course when prompted for a courseID
                 stats(courseList);
                 break;
 
             default:
-                courseListOptions(myList, courseList,command);
+                courseListOptions(myList, courseList, command);
         }
         return runApp;
     }
@@ -159,7 +179,7 @@ public class CourseChooser {
             myList.removeCourse(parseInt(indexCommand));
             System.out.println("You're the boss. That index is gone! Here's your updated list:");
             Integer count = 0;
-            for (Course i: myList.getListCourse()) {
+            for (Course i : myList.getListCourse()) {
                 System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
                 count++;
             }
@@ -172,7 +192,7 @@ public class CourseChooser {
         } else {
             System.out.println("Ay baybay, these are the courses in your worklist:");
             Integer count = 0;
-            for (Course i: myList.getListCourse()) {
+            for (Course i : myList.getListCourse()) {
                 System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
                 count++;
             }
@@ -180,7 +200,7 @@ public class CourseChooser {
     }
 
 
-// MODIFIES: myList
+    // MODIFIES: myList
 // EFFECTS: Finds the provided course in the database and adds it to the personal worklist
     private void addCourse(CourseList myList, CourseList courseList) {
         System.out.println("Provide the course ID for the class you would like to add in the following"
@@ -188,7 +208,7 @@ public class CourseChooser {
                 + "For example, UBC-2018W-MATH-100-101");
         String courseCommand = input.next();
         boolean added = false;
-        for (Course i :courseList.getListCourse()) {
+        for (Course i : courseList.getListCourse()) {
             if (courseCommand.equals(i.getId())) {
                 myList.addCourse(i);
                 System.out.println("I added " + i.getId() + " to your courselist!");
@@ -325,7 +345,7 @@ public class CourseChooser {
         Course c20 = getC20();
 
         CourseList courseDatabase = new CourseList();
-        courseDatabase.addMultipleCourses(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16,c17,c18,c19,c20);
+        courseDatabase.addMultipleCourses(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c18, c19, c20);
         return courseDatabase;
     }
 
@@ -525,6 +545,9 @@ public class CourseChooser {
         System.out.println("\tq      -> quit");
     }
 
+    public static void main(String[] args) {
+        new CourseChooser();
+    }
 }
 
 
