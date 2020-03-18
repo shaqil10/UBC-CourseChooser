@@ -50,7 +50,7 @@ class CourseTest {
 
     @Test
     public void testGetEnrolled() {
-         assertEquals(121,c15.getEnrolled());
+        assertEquals(121, c15.getEnrolled());
     }
 
     @Test
@@ -60,11 +60,6 @@ class CourseTest {
 
     @Test
     public void testGetGrades() {
-        assertEquals(11,c15.getGrades().getLessThan50());
-    }
-
-    @Test
-    public void testInfoToString() {
-        assertEquals("Yay", c15.infoToString());
+        assertEquals(11, c15.getGrades().getLessThan50());
     }
 }

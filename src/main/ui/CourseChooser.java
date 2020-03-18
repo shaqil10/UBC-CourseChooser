@@ -1,6 +1,5 @@
 package ui;
 
-import javafx.scene.layout.BorderWidths;
 import model.*;
 import persistence.Reader;
 import persistence.Writer;
@@ -35,102 +34,148 @@ public class CourseChooser extends JFrame {
     public CourseChooser() {
         super("UBC Course Chooser");
         //initializeFields();
+        courseList = populateCourseList();
+        loadWorklist();
         initializeGraphics();
     }
 
     private void initializeGraphics() {
-        this.toolbar = new Toolbar();
+        this.toolbar = new Toolbar(this);
 
-        setMinimumSize(new Dimension(WIDTH,HEIGHT));
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
         toolbar.addComponentToPane(getContentPane());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //Source: StackOverflow https://stackoverflow.com/questions/9093448/how-to-capture-a-jframes-close-button-click-event
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (JOptionPane.showConfirmDialog(toolbar,
+                        "Hold up playa, would you like to save your worklist?", "Save?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                    saveWorklist();
+                }
+                System.exit(0);
+            }
+        });
         setVisible(true);
     }
 
 
-    private void initializeFields() {
-        courseList = populateCourseList();
-        loadWorklist();
-
-
-        runApp = true;
-        String command = null;
-        input = new Scanner(System.in);
-
-        while (runApp) {
-            displayStartMenu();
-            command = input.next();
-            command = command.toLowerCase();
-
-            runApp = courseOptions(myList, courseList, runApp, command);
-        }
-        System.out.println("\nLater, skater.");
-    }
-
-    private boolean courseOptions(CourseList myList, CourseList courseList, boolean runApp, String command) {
-
-        switch (command) {
-            case "q":
-                //checks to see if user wants to save worklist and exits the application
-                runApp = quitApp();
-                break;
-
-            case "search":
-                //prompts the user for search parameters
-                search(courseList);
-                break;
-
-            case "info":
-                //returns general information about a specific course
-                info(courseList);
-                break;
-
-            case "grades":
-                //returns the grade distribution when prompted for a course ID
-                grades(courseList);
-                break;
-
-            case "stats":
-                //provides the in-depth statistics of a specific course when prompted for a courseID
-                stats(courseList);
-                break;
-
-            default:
-                courseListOptions(myList, courseList, command);
-        }
-        return runApp;
-    }
-
-    private void courseListOptions(CourseList myList, CourseList courseList, String input) {
-        switch (input) {
-
-            case "add":
-                //prompts the user for a course ID
-                //adds the course with the given ID to their myList
-                addCourse(myList, courseList);
-                return;
-
-            case "view":
-                //view the courses in my worklist
-                viewMyList(myList);
-                break;
-
-            case "remove":
-                //remove a course from the worklist
-                removeCourse(myList);
-                break;
-
-            case "save":
-                //saves worklist to file
-                saveWorklist();
-                break;
-
-            default:
-                System.out.println("That ain't an option, homie. Try again.");
+    public void produceSearchResults(String subject, String year, String average, SearchPage searchPage) {
+        JTextArea searchResult = searchPage.getSearchResult();
+        try {
+            CourseList searchResults = courseList.searcher(subject, year, parseInt(average));
+            if (searchResults.getSize() == 0) {
+                searchResult.append("My condolences, nothing matched your search criteria.");
+            } else {
+                searchResult.append("Check out deez beautiful results I found:\n\n");
+                for (Course i : searchResults.getListCourse()) {
+                    searchResult.append((i.getId() + "\n\n"));
+                }
+            }
+        } catch (NumberFormatException e) {
+            searchResult.append("That wasn't a valid average, homeslice. Try again.");
         }
     }
 
+    public void returnCourseResults(String courseID, String option, CourseInfoPage courseInfoPage) {
+        JTextArea infoDisplay = courseInfoPage.getDisplayedInfo();
+        boolean found = false;
+        for (Course i : courseList.getListCourse()) {
+            if (courseID.equals(i.getId())) {
+                infoDisplay.append("The " + option.toLowerCase() + " for " + courseID + " are as follows:\n\n");
+                i.toString(infoDisplay, option);
+                found = true;
+            }
+        }
+        if (!found) {
+            infoDisplay.append("Sorry, I couldn't find that course!");
+        }
+    }
 
+    //    private void initializeFields() {
+//        courseList = populateCourseList();
+//        loadWorklist();
+//
+//
+//        runApp = true;
+//        String command = null;
+//        input = new Scanner(System.in);
+//
+//        while (runApp) {
+//            displayStartMenu();
+//            command = input.next();
+//            command = command.toLowerCase();
+//
+//            runApp = courseOptions(myList, courseList, runApp, command);
+//        }
+//        System.out.println("\nLater, skater.");
+//    }
+//
+//    private boolean courseOptions(CourseList myList, CourseList courseList, boolean runApp, String command) {
+//
+//        switch (command) {
+//            case "q":
+//                //checks to see if user wants to save worklist and exits the application
+//                runApp = quitApp();
+//                break;
+//
+//            case "search":
+//                //prompts the user for search parameters
+//                search(courseList);
+//                break;
+//
+//            case "info":
+//                //returns general information about a specific course
+//                info(courseList);
+//                break;
+//
+//            case "grades":
+//                //returns the grade distribution when prompted for a course ID
+//                grades(courseList);
+//                break;
+//
+//            case "stats":
+//                //provides the in-depth statistics of a specific course when prompted for a courseID
+//                stats(courseList);
+//                break;
+//
+//            default:
+//                courseListOptions(myList, courseList, command);
+//        }
+//        return runApp;
+//    }
+//
+//    private void courseListOptions(CourseList myList, CourseList courseList, String input) {
+//        switch (input) {
+//
+//            case "add":
+//                //prompts the user for a course ID
+//                //adds the course with the given ID to their myList
+//                addCourse(myList, courseList);
+//                return;
+//
+//            case "view":
+//                //view the courses in my worklist
+//                viewMyList(myList);
+//                break;
+//
+//            case "remove":
+//                //remove a course from the worklist
+//                removeCourse(myList);
+//                break;
+//
+//            case "save":
+//                //saves worklist to file
+//                saveWorklist();
+//                break;
+//
+//            default:
+//                System.out.println("That ain't an option, homie. Try again.");
+//        }
+//    }
+//
+//
     // MODIFIES: this
     // EFFECTS: loads the worklist from WORKLIST_FILE, if that file exists;
     // otherwise initializes a new empty worklist
@@ -139,11 +184,13 @@ public class CourseChooser extends JFrame {
             myList = Reader.readWorklist(new File(WORKLIST_FILE), courseList);
         } catch (IOException e) {
             myList = new CourseList();
+        } catch (IndexOutOfBoundsException e) {
+            myList = new CourseList();
         }
     }
 
     // EFFECTS: saves state of personalized worklist to WORKLIST_FILE
-    private void saveWorklist() {
+    public void saveWorklist() {
         try {
             Writer writer = new Writer(new File(WORKLIST_FILE));
             writer.write(myList);
@@ -156,157 +203,96 @@ public class CourseChooser extends JFrame {
             // this is due to a programming error
         }
     }
-
-    //EFFECTS: prompts user to see if they want to save their worklist, and saves it if yes and then quits
-    // the application, otherwise just quits
-    private boolean quitApp() {
-        System.out.println("Hold up playa, would you like to save your worklist?");
-        System.out.println("Type 'yes' or 'no'.");
-        String saveCommand = input.next();
-        if (saveCommand.equals("yes")) {
-            saveWorklist();
-        }
-        return false;
-    }
-
-    private void removeCourse(CourseList myList) {
-        if (myList.getSize() == 0) {
-            System.out.println("You ain't got any courses in your list, homedrizzle.");
-        } else {
-            System.out.println("Provide the index of which course you would like to remove:\n"
-                    + "(indexes are found to the right of the list entry)");
-            String indexCommand = input.next();
-            myList.removeCourse(parseInt(indexCommand));
-            System.out.println("You're the boss. That index is gone! Here's your updated list:");
-            Integer count = 0;
-            for (Course i : myList.getListCourse()) {
-                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
-                count++;
-            }
-        }
-    }
-
-    private void viewMyList(CourseList myList) {
-        if (myList.getSize() == 0) {
-            System.out.println("You ain't got any courses in your list, homedrizzle.");
-        } else {
-            System.out.println("Ay baybay, these are the courses in your worklist:");
-            Integer count = 0;
-            for (Course i : myList.getListCourse()) {
-                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
-                count++;
-            }
-        }
-    }
-
-
-    // MODIFIES: myList
-// EFFECTS: Finds the provided course in the database and adds it to the personal worklist
-    private void addCourse(CourseList myList, CourseList courseList) {
-        System.out.println("Provide the course ID for the class you would like to add in the following"
-                + " format: UBC-yearsession-subject-coursenum-section\n"
-                + "For example, UBC-2018W-MATH-100-101");
-        String courseCommand = input.next();
-        boolean added = false;
-        for (Course i : courseList.getListCourse()) {
-            if (courseCommand.equals(i.getId())) {
-                myList.addCourse(i);
-                System.out.println("I added " + i.getId() + " to your courselist!");
-                added = true;
-            }
-        }
-        if (!added) {
-            System.out.println("Sorry, I couldn't find that course!");
-        }
-    }
-
-    private void stats(CourseList courseList) {
-        System.out.println("Provide the course ID for the class you would like to view in the following"
-                + " format: UBC-yearsession-subject-coursenum-section\n"
-                + "For example, UBC-2018W-MATH-100-101");
-        String statCommand = input.next();
-        boolean find = false;
-        for (Course i : courseList.getListCourse()) {
-            if (statCommand.equals(i.getId())) {
-                System.out.println("The statistics for " + statCommand + " are as follows:");
-                i.getStats().statsToString();
-                find = true;
-            }
-        }
-        if (!find) {
-            System.out.println("Sorry, I couldn't find that course!");
-        }
-    }
-
-    private void grades(CourseList courseList) {
-        System.out.println("Provide the course ID for the class you would like to view in the following"
-                + " format: UBC-yearsession-subject-coursenum-section\n"
-                + "For example, UBC-2018W-MATH-100-101");
-        String gradeCommand = input.next();
-        boolean found = false;
-        for (Course i : courseList.getListCourse()) {
-            if (gradeCommand.equals(i.getId())) {
-                System.out.println("The grades for " + gradeCommand + " are as follows:");
-                i.getGrades().gradesToString();
-                found = true;
-            }
-        }
-        if (!found) {
-            System.out.println("Sorry, I couldn't find that course!");
-        }
-    }
-
-    private void info(CourseList courseList) {
-        System.out.println("Provide the course ID for the class you would like to view in the following"
-                + " format: UBC-yearsession-subject-coursenum-section\n"
-                + "For example, UBC-2018W-MATH-100-101");
-        String infoCommand = input.next();
-        boolean located = false;
-        for (Course i : courseList.getListCourse()) {
-            if (infoCommand.equals(i.getId())) {
-                System.out.println("The general information for " + infoCommand + " is as follows:");
-                i.infoToString();
-                located = true;
-
-                System.out.println("Would you like to see the RateMyProfessor rating of "
-                        + i.getInstructor().getName() + "? " + "Type 'yes' or 'no'.");
-                String instructorCommand = input.next();
-                if (instructorCommand.equals("yes")) {
-                    System.out.println("RateMyProfessor Rating : " + i.getInstructor().getRating());
-                }
-            }
-        }
-        if (!located) {
-            System.out.println("Sorry, I couldn't find that course!");
-        }
-    }
-
-    private void search(CourseList courseList) {
-        System.out.println("What subject would you like to search for? Enter the 4-letter code.\n"
-                + "For example, 'CPSC' for computer science.");
-        String subjectCommand = input.next();
-
-        System.out.println("What year level would you like to search for? Enter one number.\n"
-                + "For example, '2' for a 2nd year course.");
-        String yearCommand = input.next();
-
-        System.out.println("What is the lowest course average you would like to consider in your search?\n"
-                + "For example, if you want only courses with an average of 75 or higher: enter '75'.");
-        String avgCommand = input.next();
-
-        CourseList searchResults = courseList.searcher(subjectCommand, yearCommand, parseInt(avgCommand));
-
-        if (searchResults.getSize() == 0) {
-            System.out.println("My condolences, nothing matched your search criteria.");
-        } else {
-            System.out.println("Check out deez beautiful results I found:\n");
-            Integer count = 0;
-            for (Course i : searchResults.getListCourse()) {
-                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
-                count++;
-            }
-        }
-    }
+//
+//    //EFFECTS: prompts user to see if they want to save their worklist, and saves it if yes and then quits
+//    // the application, otherwise just quits
+//    private boolean quitApp() {
+//        System.out.println("Hold up playa, would you like to save your worklist?");
+//        System.out.println("Type 'yes' or 'no'.");
+//        String saveCommand = input.next();
+//        if (saveCommand.equals("yes")) {
+//            saveWorklist();
+//        }
+//        return false;
+//    }
+//
+//    private void removeCourse(CourseList myList) {
+//        if (myList.getSize() == 0) {
+//            System.out.println("You ain't got any courses in your list, homedrizzle.");
+//        } else {
+//            System.out.println("Provide the index of which course you would like to remove:\n"
+//                    + "(indexes are found to the right of the list entry)");
+//            String indexCommand = input.next();
+//            myList.removeCourse(parseInt(indexCommand));
+//            System.out.println("You're the boss. That index is gone! Here's your updated list:");
+//            Integer count = 0;
+//            for (Course i : myList.getListCourse()) {
+//                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
+//                count++;
+//            }
+//        }
+//    }
+//
+//    private void viewMyList(CourseList myList) {
+//        if (myList.getSize() == 0) {
+//            System.out.println("You ain't got any courses in your list, homedrizzle.");
+//        } else {
+//            System.out.println("Ay baybay, these are the courses in your worklist:");
+//            Integer count = 0;
+//            for (Course i : myList.getListCourse()) {
+//                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
+//                count++;
+//            }
+//        }
+//    }
+//
+//
+//    // MODIFIES: myList
+//// EFFECTS: Finds the provided course in the database and adds it to the personal worklist
+//    private void addCourse(CourseList myList, CourseList courseList) {
+//        System.out.println("Provide the course ID for the class you would like to add in the following"
+//                + " format: UBC-yearsession-subject-coursenum-section\n"
+//                + "For example, UBC-2018W-MATH-100-101");
+//        String courseCommand = input.next();
+//        boolean added = false;
+//        for (Course i : courseList.getListCourse()) {
+//            if (courseCommand.equals(i.getId())) {
+//                myList.addCourse(i);
+//                System.out.println("I added " + i.getId() + " to your courselist!");
+//                added = true;
+//            }
+//        }
+//        if (!added) {
+//            System.out.println("Sorry, I couldn't find that course!");
+//        }
+//    }
+//
+//    private void search(CourseList courseList) {
+//        System.out.println("What subject would you like to search for? Enter the 4-letter code.\n"
+//                + "For example, 'CPSC' for computer science.");
+//        String subjectCommand = input.next();
+//
+//        System.out.println("What year level would you like to search for? Enter one number.\n"
+//                + "For example, '2' for a 2nd year course.");
+//        String yearCommand = input.next();
+//
+//        System.out.println("What is the lowest course average you would like to consider in your search?\n"
+//                + "For example, if you want only courses with an average of 75 or higher: enter '75'.");
+//        String avgCommand = input.next();
+//
+//        CourseList searchResults = courseList.searcher(subjectCommand, yearCommand, parseInt(avgCommand));
+//
+//        if (searchResults.getSize() == 0) {
+//            System.out.println("My condolences, nothing matched your search criteria.");
+//        } else {
+//            System.out.println("Check out deez beautiful results I found:\n");
+//            Integer count = 0;
+//            for (Course i : searchResults.getListCourse()) {
+//                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
+//                count++;
+//            }
+//        }
+//    }
 
     //EFFECTS: builds the course database
     public CourseList populateCourseList() {
@@ -547,6 +533,57 @@ public class CourseChooser extends JFrame {
 
     public static void main(String[] args) {
         new CourseChooser();
+    }
+
+    public void addCourse(String courseAdded, WorklistPage worklistPage) {
+        JTextArea worklistDisplay = worklistPage.getPersonalWorklist();
+        boolean added = false;
+        for (Course i : courseList.getListCourse()) {
+            if (courseAdded.equals(i.getId())) {
+                myList.addCourse(i);
+                worklistDisplay.append("I added " + i.getId() + " to your worklist!\n\n");
+                displayWorklist(worklistDisplay);
+                added = true;
+                break;
+            }
+        }
+
+        if (!added) {
+            worklistDisplay.append("Sorry, I couldn't find that course!\n\n");
+            displayWorklist(worklistDisplay);
+        }
+    }
+
+    public void displayWorklist(JTextArea worklistDisplay) {
+        worklistDisplay.append("Your personalized worklist:\n\n");
+
+        if (myList.getSize() == 0) {
+            worklistDisplay.append("Your worklist is empty! Add some bad boys in there.");
+        }
+
+        for (Course course : myList.getListCourse()) {
+            worklistDisplay.append(course.getId() + "\n\n");
+        }
+    }
+
+    public void removeCourse(String courseToRemove, WorklistPage worklistPage) {
+        JTextArea worklistDisplay = worklistPage.getPersonalWorklist();
+
+        boolean removed = false;
+        for (Course i : myList.getListCourse()) {
+            if (courseToRemove.equals(i.getId())) {
+                myList.removeCourse(i);
+                worklistDisplay.append("I removed " + i.getId() + " to your worklist!\n\n");
+                displayWorklist(worklistDisplay);
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed) {
+            worklistDisplay.append("Sorry, I couldn't find that course!\n\n");
+            displayWorklist(worklistDisplay);
+        }
     }
 }
 

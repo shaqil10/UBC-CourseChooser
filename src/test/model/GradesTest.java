@@ -101,8 +101,5 @@ class GradesTest {
         assertEquals("9", String.valueOf(c15grades.getNinetyTo100()));
     }
 
-    @Test
-    public void testGradestoString() {
-        assertEquals("Yay", c15grades.gradesToString());
+
     }
-}

@@ -1,5 +1,7 @@
 package ui.pages;
 
+import ui.CourseChooser;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -17,8 +19,10 @@ public class SearchCriteria extends JPanel {
     JComboBox<String> subjectField;
     JComboBox<String> yearField;
     JTextField averageField;
+    CourseChooser courseChooser;
 
-    public SearchCriteria(SearchPage searchPage) {
+    public SearchCriteria(CourseChooser courseChooser, SearchPage searchPage) {
+        this.courseChooser = courseChooser;
         this.searchPage = searchPage;
         Dimension dim = getPreferredSize();
         dim.width = 300;
@@ -38,11 +42,11 @@ public class SearchCriteria extends JPanel {
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 searchPage.removeText();
-                Object subject = subjectField.getSelectedItem();
-                Object year = yearField.getSelectedItem();
+                String subject = (String) subjectField.getSelectedItem();
+                String year = (String) yearField.getSelectedItem();
                 String average = averageField.getText();
 
-                searchPage.produceSearchResults(subject,year,average);
+                courseChooser.produceSearchResults(subject,year,average,searchPage);
             }
         });
 

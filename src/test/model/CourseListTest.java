@@ -212,13 +212,26 @@ class CourseListTest {
     }
 
     @Test
-    public void testRemoveCourse() {
+    public void testRemoveCourseIndex() {
         testList.addMultipleCourses(c16,c17,c18);
+        assertEquals(3,testList.getSize());
         testList.removeCourse(1);
-        assertEquals(2,testList.getSize());
+        assertEquals(2, testList.getSize());
         assertTrue(testList.contains(c16));
         assertFalse(testList.contains(c17));
         assertTrue(testList.contains(c18));
+    }
+
+    @Test
+    public void testRemoveCourse() {
+        testList.addMultipleCourses(c16,c17,c18);
+        assertEquals(3,testList.getSize());
+        testList.removeCourse(c17);
+        assertTrue(testList.contains(c16));
+        assertFalse(testList.contains(c17));
+        assertTrue(testList.contains(c18));
+        testList.removeCourse(c15);
+        assertEquals(2,testList.getSize());
     }
 
     @Test

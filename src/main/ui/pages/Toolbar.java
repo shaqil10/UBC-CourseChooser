@@ -1,21 +1,25 @@
 package ui.pages;
 
+import ui.CourseChooser;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Toolbar extends JTabbedPane {
+    CourseChooser courseChooser;
     SearchPage searchPage;
     WorklistPage worklistPage;
     CourseInfoPage courseInfoPage;
 
-    public Toolbar() {
+    public Toolbar(CourseChooser courseChooser) {
+        this.courseChooser = courseChooser;
+        searchPage = new SearchPage(courseChooser);
+        worklistPage = new WorklistPage(courseChooser);
+        courseInfoPage = new CourseInfoPage(courseChooser);
     }
 
     public void addComponentToPane(Container pane) {
         JTabbedPane toolbar = new JTabbedPane();
-        searchPage = new SearchPage();
-        worklistPage = new WorklistPage();
-        courseInfoPage = new CourseInfoPage();
 
         toolbar.addTab("Search", searchPage);
         toolbar.addTab("Worklist", worklistPage);

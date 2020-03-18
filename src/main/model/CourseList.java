@@ -33,6 +33,13 @@ public class CourseList implements Saveable {
         listCourse.remove(index);
     }
 
+    //MODIFIES: this
+    //EFFECTS: removes the specified Course from the courseList
+    //         if an index is provided that doesn't exist, an error is thrown
+    public boolean removeCourse(Course course) {
+        boolean result = listCourse.remove(course);
+        return result;
+    }
 
     //MODIFIES: this
     //EFFECTS: adds multiple Course objects supplied in the parameters to the CourseList
@@ -58,7 +65,7 @@ public class CourseList implements Saveable {
     //EFFECTS: searches through this CourseList for courses that match the course subject, yearlevel, and an
     //         average greater than or equal to the meanThreshold supplied
     //         returns a new CourseList with the courses that match the criteria
-    public CourseList searcher(Object subject, Object yearLevel, double meanThreshold) {
+    public CourseList searcher(String subject, String yearLevel, double meanThreshold) {
         ArrayList<Course> searchResults = (ArrayList<Course>) listCourse.stream()
                 .filter(x -> subject.equals(x.getSubject())
                         && yearLevel.equals(x.getCourseNum().substring(0, 1))

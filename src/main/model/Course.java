@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.*;
+
 //represents a course with all the necessary fields that UBC Pair supplies from grade distributions
 public class Course {
     private String id;
@@ -71,16 +73,66 @@ public class Course {
         return stats;
     }
 
+    public void toString(JTextArea infoDisplay, String option) {
+        switch (option) {
+            case "General Info":
+                infoToString(infoDisplay);
+                break;
+
+            case "Grade Distribution":
+                gradesToString(infoDisplay);
+                break;
+
+            case "Statistics":
+                statsToString(infoDisplay);
+                break;
+        }
+    }
+
     //EFFECTS: Prints out all of the general information for a course
-    public String infoToString() {
-        System.out.println("Course ID   : " + getId());
-        System.out.println("YearSession : " + getYearsession());
-        System.out.println("Subject     : " + getSubject());
-        System.out.println("Course Code : " + getCourseNum());
-        System.out.println("Section     : " + getSection());
-        System.out.println("Course Name : " + getTitle());
-        System.out.println("Instructor  : " + getInstructor().getName());
-        System.out.println("Enrolled    : " + String.valueOf(getEnrolled()));
+    public String infoToString(JTextArea infoDisplay) {
+        infoDisplay.append("Course ID :               " + getId() + "\n");
+        infoDisplay.append("YearSession :           " + getYearsession() + "\n");
+        infoDisplay.append("Subject :                    " + getSubject() + "\n");
+        infoDisplay.append("Course Code :         " + getCourseNum() + "\n");
+        infoDisplay.append("Section :                   " + getSection() + "\n");
+        infoDisplay.append("Course Name :         " + getTitle() + "\n");
+        infoDisplay.append("Instructor :                  " + getInstructor().getName() + "\n");
+        infoDisplay.append("RateMyProfessor :   " + getInstructor().getRating() + "\n");
+        infoDisplay.append("Enrolled :                   " + String.valueOf(getEnrolled()) + "\n");
+        return "Yay";
+    }
+
+    //EFFECTS: Prints out all of the statistics for a given course
+    public String statsToString(JTextArea infoDisplay) {
+        infoDisplay.append("Mean :      " + String.valueOf(stats.getAverage()) + "\n");
+        infoDisplay.append("StDev :     " + String.valueOf(stats.getStDev()) + "\n");
+        infoDisplay.append("High :        " + String.valueOf(stats.getHigh()) + "\n");
+        infoDisplay.append("Low :         " + String.valueOf(stats.getLow()) + "\n");
+        infoDisplay.append("Pass :       " + String.valueOf(stats.getPass()) + "\n");
+        infoDisplay.append("Fail :          " + String.valueOf(stats.getFail()) + "\n");
+        infoDisplay.append("Withdrew : " + String.valueOf(stats.getWithdrew()) + "\n");
+        return "Yay";
+    }
+
+    //EFFECTS: Prints out all of the grade distribution values of a given Course
+    public String gradesToString(JTextArea infoDisplay) {
+        infoDisplay.append("0-9 %        : " + String.valueOf(grades.getZeroTo9()) + "\n");
+        infoDisplay.append("10-19 %   : " + String.valueOf(grades.getTenTo19()) + "\n");
+        infoDisplay.append("20-29 %   : " + String.valueOf(grades.getTwentyTo29()) + "\n");
+        infoDisplay.append("30-39 %   : " + String.valueOf(grades.getThirtyTo39()) + "\n");
+        infoDisplay.append("40-49 %   : " + String.valueOf(grades.getFortyTo49()) + "\n");
+        infoDisplay.append("<50 %       : " + String.valueOf(grades.getLessThan50()) + "\n");
+        infoDisplay.append("50-54 %   : " + String.valueOf(grades.getFiftyTo54()) + "\n");
+        infoDisplay.append("55-59 %   : " + String.valueOf(grades.getFiftyFiveTo59()) + "\n");
+        infoDisplay.append("60-63 %   : " + String.valueOf(grades.getSixtyTo63()) + "\n");
+        infoDisplay.append("64-67 %   : " + String.valueOf(grades.getSixtyFourTo67()) + "\n");
+        infoDisplay.append("68-71 %   : " + String.valueOf(grades.getSixtyEightTo71()) + "\n");
+        infoDisplay.append("72-75 %   : " + String.valueOf(grades.getSeventyTwoTo75()) + "\n");
+        infoDisplay.append("76-79 %   : " + String.valueOf(grades.getSeventySixTo79()) + "\n");
+        infoDisplay.append("80-84 %   : " + String.valueOf(grades.getEightyTo84()) + "\n");
+        infoDisplay.append("85-89 %   : " + String.valueOf(grades.getEightyFiveTo89()) + "\n");
+        infoDisplay.append("90-100 % : " + String.valueOf(grades.getNinetyTo100()) + "\n");
         return "Yay";
     }
 }

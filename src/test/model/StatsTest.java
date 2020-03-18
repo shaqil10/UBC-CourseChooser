@@ -56,8 +56,4 @@ class StatsTest {
         assertEquals(3, c15stats.getWithdrew());
     }
 
-    @Test
-    public void testStatsToString() {
-        assertEquals("Yay", c15stats.statsToString());
-    }
 }
