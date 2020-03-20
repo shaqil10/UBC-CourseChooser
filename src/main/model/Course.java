@@ -73,6 +73,9 @@ public class Course {
         return stats;
     }
 
+    // REQUIRES: option must be on of "General Info", "Grade Distribution", or "Statistics"
+    // MODIFIES: infoDisplay
+    // EFFECTS: appends the information, grades, or stats of this course onto infoDisplay based on the option provided
     public void toString(JTextArea infoDisplay, String option) {
         switch (option) {
             case "General Info":
@@ -89,7 +92,7 @@ public class Course {
         }
     }
 
-    //EFFECTS: Prints out all of the general information for a course
+    //EFFECTS: Prints out all of the general information for a course onto infoDisplay
     public String infoToString(JTextArea infoDisplay) {
         infoDisplay.append("Course ID :               " + getId() + "\n");
         infoDisplay.append("YearSession :           " + getYearsession() + "\n");
@@ -100,10 +103,10 @@ public class Course {
         infoDisplay.append("Instructor :                  " + getInstructor().getName() + "\n");
         infoDisplay.append("RateMyProfessor :   " + getInstructor().getRating() + "\n");
         infoDisplay.append("Enrolled :                   " + String.valueOf(getEnrolled()) + "\n");
-        return "Yay";
+        return infoDisplay.getText();
     }
 
-    //EFFECTS: Prints out all of the statistics for a given course
+    //EFFECTS: Prints out all of the statistics for a given course onto infoDisplay
     public String statsToString(JTextArea infoDisplay) {
         infoDisplay.append("Mean :      " + String.valueOf(stats.getAverage()) + "\n");
         infoDisplay.append("StDev :     " + String.valueOf(stats.getStDev()) + "\n");
@@ -112,10 +115,10 @@ public class Course {
         infoDisplay.append("Pass :       " + String.valueOf(stats.getPass()) + "\n");
         infoDisplay.append("Fail :          " + String.valueOf(stats.getFail()) + "\n");
         infoDisplay.append("Withdrew : " + String.valueOf(stats.getWithdrew()) + "\n");
-        return "Yay";
+        return infoDisplay.getText();
     }
 
-    //EFFECTS: Prints out all of the grade distribution values of a given Course
+    //EFFECTS: Prints out all of the grade distribution values of a given Course onto infoDisplay
     public String gradesToString(JTextArea infoDisplay) {
         infoDisplay.append("0-9 %        : " + String.valueOf(grades.getZeroTo9()) + "\n");
         infoDisplay.append("10-19 %   : " + String.valueOf(grades.getTenTo19()) + "\n");
@@ -133,6 +136,6 @@ public class Course {
         infoDisplay.append("80-84 %   : " + String.valueOf(grades.getEightyTo84()) + "\n");
         infoDisplay.append("85-89 %   : " + String.valueOf(grades.getEightyFiveTo89()) + "\n");
         infoDisplay.append("90-100 % : " + String.valueOf(grades.getNinetyTo100()) + "\n");
-        return "Yay";
+        return infoDisplay.getText();
     }
 }

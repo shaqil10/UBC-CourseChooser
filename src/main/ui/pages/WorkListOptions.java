@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//represents the panel on the WorklistPage where users can either remove or add courses to their worklist or save
 public class WorkListOptions extends JPanel {
     CourseChooser courseChooser;
     WorklistPage worklistPage;

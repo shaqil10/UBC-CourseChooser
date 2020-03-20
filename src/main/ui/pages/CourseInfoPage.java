@@ -6,6 +6,7 @@ import ui.CourseChooser;
 import javax.swing.*;
 import java.awt.*;
 
+// represents the 3rd tab of the GUI where users can search for more detailed information on a specific course
 public class CourseInfoPage extends JPanel {
     CourseChooser courseChooser;
     JTextArea displayedInfo;

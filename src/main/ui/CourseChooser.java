@@ -33,7 +33,6 @@ public class CourseChooser extends JFrame {
     //EFFECTS: Run the Course Chooser application
     public CourseChooser() {
         super("UBC Course Chooser");
-        //initializeFields();
         courseList = populateCourseList();
         loadWorklist();
         initializeGraphics();
@@ -93,89 +92,6 @@ public class CourseChooser extends JFrame {
         }
     }
 
-    //    private void initializeFields() {
-//        courseList = populateCourseList();
-//        loadWorklist();
-//
-//
-//        runApp = true;
-//        String command = null;
-//        input = new Scanner(System.in);
-//
-//        while (runApp) {
-//            displayStartMenu();
-//            command = input.next();
-//            command = command.toLowerCase();
-//
-//            runApp = courseOptions(myList, courseList, runApp, command);
-//        }
-//        System.out.println("\nLater, skater.");
-//    }
-//
-//    private boolean courseOptions(CourseList myList, CourseList courseList, boolean runApp, String command) {
-//
-//        switch (command) {
-//            case "q":
-//                //checks to see if user wants to save worklist and exits the application
-//                runApp = quitApp();
-//                break;
-//
-//            case "search":
-//                //prompts the user for search parameters
-//                search(courseList);
-//                break;
-//
-//            case "info":
-//                //returns general information about a specific course
-//                info(courseList);
-//                break;
-//
-//            case "grades":
-//                //returns the grade distribution when prompted for a course ID
-//                grades(courseList);
-//                break;
-//
-//            case "stats":
-//                //provides the in-depth statistics of a specific course when prompted for a courseID
-//                stats(courseList);
-//                break;
-//
-//            default:
-//                courseListOptions(myList, courseList, command);
-//        }
-//        return runApp;
-//    }
-//
-//    private void courseListOptions(CourseList myList, CourseList courseList, String input) {
-//        switch (input) {
-//
-//            case "add":
-//                //prompts the user for a course ID
-//                //adds the course with the given ID to their myList
-//                addCourse(myList, courseList);
-//                return;
-//
-//            case "view":
-//                //view the courses in my worklist
-//                viewMyList(myList);
-//                break;
-//
-//            case "remove":
-//                //remove a course from the worklist
-//                removeCourse(myList);
-//                break;
-//
-//            case "save":
-//                //saves worklist to file
-//                saveWorklist();
-//                break;
-//
-//            default:
-//                System.out.println("That ain't an option, homie. Try again.");
-//        }
-//    }
-//
-//
     // MODIFIES: this
     // EFFECTS: loads the worklist from WORKLIST_FILE, if that file exists;
     // otherwise initializes a new empty worklist
@@ -203,96 +119,6 @@ public class CourseChooser extends JFrame {
             // this is due to a programming error
         }
     }
-//
-//    //EFFECTS: prompts user to see if they want to save their worklist, and saves it if yes and then quits
-//    // the application, otherwise just quits
-//    private boolean quitApp() {
-//        System.out.println("Hold up playa, would you like to save your worklist?");
-//        System.out.println("Type 'yes' or 'no'.");
-//        String saveCommand = input.next();
-//        if (saveCommand.equals("yes")) {
-//            saveWorklist();
-//        }
-//        return false;
-//    }
-//
-//    private void removeCourse(CourseList myList) {
-//        if (myList.getSize() == 0) {
-//            System.out.println("You ain't got any courses in your list, homedrizzle.");
-//        } else {
-//            System.out.println("Provide the index of which course you would like to remove:\n"
-//                    + "(indexes are found to the right of the list entry)");
-//            String indexCommand = input.next();
-//            myList.removeCourse(parseInt(indexCommand));
-//            System.out.println("You're the boss. That index is gone! Here's your updated list:");
-//            Integer count = 0;
-//            for (Course i : myList.getListCourse()) {
-//                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
-//                count++;
-//            }
-//        }
-//    }
-//
-//    private void viewMyList(CourseList myList) {
-//        if (myList.getSize() == 0) {
-//            System.out.println("You ain't got any courses in your list, homedrizzle.");
-//        } else {
-//            System.out.println("Ay baybay, these are the courses in your worklist:");
-//            Integer count = 0;
-//            for (Course i : myList.getListCourse()) {
-//                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
-//                count++;
-//            }
-//        }
-//    }
-//
-//
-//    // MODIFIES: myList
-//// EFFECTS: Finds the provided course in the database and adds it to the personal worklist
-//    private void addCourse(CourseList myList, CourseList courseList) {
-//        System.out.println("Provide the course ID for the class you would like to add in the following"
-//                + " format: UBC-yearsession-subject-coursenum-section\n"
-//                + "For example, UBC-2018W-MATH-100-101");
-//        String courseCommand = input.next();
-//        boolean added = false;
-//        for (Course i : courseList.getListCourse()) {
-//            if (courseCommand.equals(i.getId())) {
-//                myList.addCourse(i);
-//                System.out.println("I added " + i.getId() + " to your courselist!");
-//                added = true;
-//            }
-//        }
-//        if (!added) {
-//            System.out.println("Sorry, I couldn't find that course!");
-//        }
-//    }
-//
-//    private void search(CourseList courseList) {
-//        System.out.println("What subject would you like to search for? Enter the 4-letter code.\n"
-//                + "For example, 'CPSC' for computer science.");
-//        String subjectCommand = input.next();
-//
-//        System.out.println("What year level would you like to search for? Enter one number.\n"
-//                + "For example, '2' for a 2nd year course.");
-//        String yearCommand = input.next();
-//
-//        System.out.println("What is the lowest course average you would like to consider in your search?\n"
-//                + "For example, if you want only courses with an average of 75 or higher: enter '75'.");
-//        String avgCommand = input.next();
-//
-//        CourseList searchResults = courseList.searcher(subjectCommand, yearCommand, parseInt(avgCommand));
-//
-//        if (searchResults.getSize() == 0) {
-//            System.out.println("My condolences, nothing matched your search criteria.");
-//        } else {
-//            System.out.println("Check out deez beautiful results I found:\n");
-//            Integer count = 0;
-//            for (Course i : searchResults.getListCourse()) {
-//                System.out.println(i.getId() + " [" + Integer.toString(count) + "]");
-//                count++;
-//            }
-//        }
-//    }
 
     //EFFECTS: builds the course database
     public CourseList populateCourseList() {
@@ -512,21 +338,6 @@ public class CourseChooser extends JFrame {
                 new Grades(0, 1, 0, 3, 2, 6, 10,
                         12, 18, 14, 18, 20, 17,
                         17, 4, 0));
-    }
-
-
-    // EFFECTS: displays menu of options to user
-    private void displayStartMenu() {
-        System.out.println("\nPick one of these bad boys:");
-        System.out.println("\tadd    -> add a course to your worklist");
-        System.out.println("\tgrades -> view grade distribution for a specific course");
-        System.out.println("\tinfo   -> view general info on a specific course");
-        System.out.println("\tstats  -> view detailed statistics for a specific course");
-        System.out.println("\tremove -> remove a course from your worklist");
-        System.out.println("\tsave   -> save your personalized worklist");
-        System.out.println("\tsearch -> search for courses");
-        System.out.println("\tview   -> view your worklist");
-        System.out.println("\tq      -> quit");
     }
 
     public static void main(String[] args) {

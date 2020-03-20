@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import static javax.swing.BorderFactory.createTitledBorder;
 
+//represents the panel on the SearchPage where a user can input their search criteria
 public class SearchCriteria extends JPanel {
     private SearchPage searchPage;
     private JLabel subjectLabel;

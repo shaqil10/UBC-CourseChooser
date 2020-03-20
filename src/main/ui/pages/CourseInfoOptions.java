@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// represents the panel on the CourseInfoPage where users can search for specific information/stats on a course
 public class CourseInfoOptions extends JPanel {
     CourseChooser courseChooser;
     CourseInfoPage courseInfoPage;

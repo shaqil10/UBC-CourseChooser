@@ -6,6 +6,7 @@ import ui.CourseChooser;
 import javax.swing.*;
 import java.awt.*;
 
+// represents the second tab on the graphical user interface where users can edit and see their worklist
 public class WorklistPage extends JPanel {
     CourseChooser courseChooser;
     JTextArea personalWorklist;
