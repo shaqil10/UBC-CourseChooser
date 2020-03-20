@@ -38,27 +38,68 @@ public class SearchCriteria extends JPanel {
         yearField = new JComboBox<>(years);
         averageField = new JTextField("Enter a number between 0-100",16);
 
-        searchButton = new JButton("Search!");
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                searchPage.removeText();
-                String subject = (String) subjectField.getSelectedItem();
-                String year = (String) yearField.getSelectedItem();
-                String average = averageField.getText();
+        initButton(courseChooser, searchPage);
 
-                courseChooser.produceSearchResults(subject,year,average,searchPage);
-            }
-        });
+        initBorders();
 
+        setLayout(new GridBagLayout());
+        GridBagConstraints gc = new GridBagConstraints();
+        setUpGridRow1(gc);
+        setUpGridRow2(gc);
+        setUpGridRow3(gc);
+        placeButton(gc);
+    }
+
+    private void initBorders() {
         Border titleBorder = BorderFactory.createTitledBorder("Fill in the following search criteria:");
         Border innerBorder = BorderFactory.createLineBorder(Color.BLACK,1,true);
         setBorder(BorderFactory.createCompoundBorder(innerBorder,titleBorder));
+    }
 
+    private void placeButton(GridBagConstraints gc) {
+        //BUTTON ROW//
+        gc.weightx = 1;
+        gc.weighty = 2.0;
 
-        setLayout(new GridBagLayout());
+        gc.gridx = 1;
+        gc.gridy = 3;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        add(searchButton,gc);
+    }
 
-        GridBagConstraints gc = new GridBagConstraints();
+    private void setUpGridRow3(GridBagConstraints gc) {
+        //THIRD ROW//
+        gc.weightx = 1;
+        gc.weighty = 1;
 
+        gc.gridx = 0;
+        gc.gridy = 2;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(averageLabel,gc);
+
+        gc.gridx = 1;
+        gc.gridy = 2;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(averageField,gc);
+    }
+
+    private void setUpGridRow2(GridBagConstraints gc) {
+        //SECOND ROW//
+        gc.weightx = 1;
+        gc.weighty = 1;
+
+        gc.gridx = 0;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_END;
+        add(yearLabel,gc);
+
+        gc.gridx = 1;
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LINE_START;
+        add(yearField,gc);
+    }
+
+    private void setUpGridRow1(GridBagConstraints gc) {
         //FIRST ROW//
         gc.weightx = 1;
         gc.weighty = 1;
@@ -75,44 +116,19 @@ public class SearchCriteria extends JPanel {
         gc.gridy = 0;
         gc.anchor = GridBagConstraints.LINE_START;
         add(subjectField,gc);
+    }
 
-        //SECOND ROW//
-        gc.weightx = 1;
-        gc.weighty = 1;
+    private void initButton(CourseChooser courseChooser, SearchPage searchPage) {
+        searchButton = new JButton("Search!");
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                searchPage.removeText();
+                String subject = (String) subjectField.getSelectedItem();
+                String year = (String) yearField.getSelectedItem();
+                String average = averageField.getText();
 
-        gc.gridx = 0;
-        gc.gridy = 1;
-        gc.anchor = GridBagConstraints.LINE_END;
-        add(yearLabel,gc);
-
-        gc.gridx = 1;
-        gc.gridy = 1;
-        gc.anchor = GridBagConstraints.LINE_START;
-        add(yearField,gc);
-
-        //THIRD ROW//
-        gc.weightx = 1;
-        gc.weighty = 1;
-
-        gc.gridx = 0;
-        gc.gridy = 2;
-        gc.anchor = GridBagConstraints.LINE_END;
-        add(averageLabel,gc);
-
-        gc.gridx = 1;
-        gc.gridy = 2;
-        gc.anchor = GridBagConstraints.LINE_START;
-        add(averageField,gc);
-
-        //BUTTON ROW//
-        gc.weightx = 1;
-        gc.weighty = 2.0;
-
-        gc.gridx = 1;
-        gc.gridy = 3;
-        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        add(searchButton,gc);
-
-
+                courseChooser.produceSearchResults(subject,year,average,searchPage);
+            }
+        });
     }
 }

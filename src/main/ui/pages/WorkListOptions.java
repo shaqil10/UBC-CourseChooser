@@ -25,33 +25,7 @@ public class WorkListOptions extends JPanel {
         addRemoveLabel = new JLabel("Enter the course ID of a course you would like to add or remove.");
         addRemoveField = new JTextField("Ex. UBC-2018W-MATH-100-101",25);
 
-        addButton = new JButton("Add");
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                worklistPage.removeText();
-                String courseAdded = addRemoveField.getText();
-                courseChooser.addCourse(courseAdded, worklistPage);
-            }
-        });
-
-        removeButton = new JButton("Remove");
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                worklistPage.removeText();
-                String courseToRemove = addRemoveField.getText();
-                courseChooser.removeCourse(courseToRemove, worklistPage);
-            }
-        });
-
-        saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                courseChooser.saveWorklist();
-            }
-        });
+        initButtons(courseChooser, worklistPage);
 
         Dimension dim = getPreferredSize();
         dim.height = 250;
@@ -62,12 +36,15 @@ public class WorkListOptions extends JPanel {
 
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.NONE;
+        setUpGrid(gc);
 
+    }
+
+    private void setUpGrid(GridBagConstraints gc) {
         //FIRST COLUMN//
         gc.weightx = 1;
         gc.weighty = 1;
-
-        gc.fill = GridBagConstraints.NONE;
 
         gc.gridx = 0;
         gc.gridy = 0;
@@ -98,6 +75,32 @@ public class WorkListOptions extends JPanel {
         gc.gridy = 1;
         gc.anchor = GridBagConstraints.CENTER;
         add(saveButton, gc);
+    }
 
+    private void initButtons(CourseChooser courseChooser, WorklistPage worklistPage) {
+        addButton = new JButton("Add");
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                worklistPage.removeText();
+                String courseAdded = addRemoveField.getText();
+                courseChooser.addCourse(courseAdded, worklistPage);
+            }
+        });
+
+        removeButton = new JButton("Remove");
+        removeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                worklistPage.removeText();
+                String courseToRemove = addRemoveField.getText();
+                courseChooser.removeCourse(courseToRemove, worklistPage);
+            }
+        });
+
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                courseChooser.saveWorklist();
+            }
+        });
     }
 }

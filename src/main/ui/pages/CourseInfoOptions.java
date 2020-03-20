@@ -25,16 +25,7 @@ public class CourseInfoOptions extends JPanel {
         optionsLabel = new JLabel("Choose one of the following:");
         options = new JComboBox<>(choices);
         courseIdField = new JTextField("Ex. UBC-2018W-MATH-100-101",25);
-        infoButton = new JButton("Show me!");
-        infoButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                courseInfoPage.removeText();
-                String courseID = courseIdField.getText();
-                String option = (String) options.getSelectedItem();
-
-                courseChooser.returnCourseResults(courseID, option, courseInfoPage);
-            }
-        });
+        initButton(courseChooser, courseInfoPage);
 
 
         Dimension dim = getPreferredSize();
@@ -46,14 +37,31 @@ public class CourseInfoOptions extends JPanel {
 
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.NONE;
+        setUpGrid(gc);
 
+    }
+
+    private void initButton(CourseChooser courseChooser, CourseInfoPage courseInfoPage) {
+        infoButton = new JButton("Show me!");
+        infoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                courseInfoPage.removeText();
+                String courseID = courseIdField.getText();
+                String option = (String) options.getSelectedItem();
+
+                courseChooser.returnCourseResults(courseID, option, courseInfoPage);
+            }
+        });
+    }
+
+    private void setUpGrid(GridBagConstraints gc) {
         //FIRST ROW//
         gc.weightx = 1;
         gc.weighty = 1;
 
         gc.gridx = 0;
         gc.gridy = 0;
-        gc.fill = GridBagConstraints.NONE;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = new Insets(0,0,0,5);
 
@@ -79,6 +87,5 @@ public class CourseInfoOptions extends JPanel {
         gc.gridy = 1;
         gc.anchor = GridBagConstraints.LINE_START;
         add(infoButton, gc);
-
     }
 }
