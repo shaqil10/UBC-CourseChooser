@@ -23,8 +23,6 @@ import static java.lang.Integer.parseInt;
 public class CourseChooser extends JFrame {
     private CourseList myList;
     private CourseList courseList;
-    private boolean runApp;
-    private Scanner input;
     private Toolbar toolbar;
     private static final String WORKLIST_FILE = "./data/worklist.txt";
     public static final int WIDTH = 1000;
