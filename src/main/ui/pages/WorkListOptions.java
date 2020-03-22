@@ -31,6 +31,7 @@ public class WorkListOptions extends JPanel {
     ArrayList<Image> frames;
     JPanel popUpGIF;
 
+    //constructs the worklist options panel with buttons, labels, and fields
     public WorkListOptions(CourseChooser courseChooser, WorklistPage worklistPage) {
         this.courseChooser = courseChooser;
         this.worklistPage = worklistPage;
@@ -58,6 +59,8 @@ public class WorkListOptions extends JPanel {
 
     }
 
+    //EFFECTS: initializes the layout of the worklist options panel with GridLayout, and adds labels,
+    // fields, and buttons
     private void setUpGrid(GridBagConstraints gc) {
         //FIRST COLUMN//
         gc.weightx = 1;
@@ -94,16 +97,29 @@ public class WorkListOptions extends JPanel {
         add(saveButton, gc);
     }
 
+    //EFFECTS: initializes the save, add, and remove buttons
     private void initButtons(CourseChooser courseChooser, WorklistPage worklistPage) {
-        addButton = new JButton("Add");
-        addButton.addActionListener(new ActionListener() {
+        initAddButton(courseChooser, worklistPage);
+
+        initRemoveButton(courseChooser, worklistPage);
+
+        initSaveButton(courseChooser, worklistPage);
+    }
+
+    //EFFECTS: constructs the Save button and its function
+    private void initSaveButton(CourseChooser courseChooser, WorklistPage worklistPage) {
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                worklistPage.removeText();
-                String courseAdded = addRemoveField.getText();
-                courseChooser.addCourse(courseAdded, worklistPage);
+                JPanel popUpPanel = makePopUpPanel();
+                JOptionPane.showMessageDialog(worklistPage, popUpPanel,"You smart.",1);
+                courseChooser.saveWorklist();
             }
         });
+    }
 
+    //EFFECTS: constructs the Remove button and its function
+    private void initRemoveButton(CourseChooser courseChooser, WorklistPage worklistPage) {
         removeButton = new JButton("Remove");
         removeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -112,17 +128,22 @@ public class WorkListOptions extends JPanel {
                 courseChooser.removeCourse(courseToRemove, worklistPage);
             }
         });
+    }
 
-        saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
+    //EFFECTS: constructs the Add button and its function
+    private void initAddButton(CourseChooser courseChooser, WorklistPage worklistPage) {
+        addButton = new JButton("Add");
+        addButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JPanel popUpPanel = makePopUpPanel();
-                JOptionPane.showMessageDialog(worklistPage, popUpPanel,"Big brain play.",1);
-                courseChooser.saveWorklist();
+                worklistPage.removeText();
+                String courseAdded = addRemoveField.getText();
+                courseChooser.addCourse(courseAdded, worklistPage);
             }
         });
     }
 
+    //The following 27 methods are all simple methods that retrieve each individual frame of the GIF saved locally
+    // in the project and return the image so it can be accessed by methods in this class
     public static Image getFrame1() throws Exception {
         File file = new File("./data/frame_00_delay-0.07s.png");
         BufferedImage image = ImageIO.read(file);
@@ -285,6 +306,7 @@ public class WorkListOptions extends JPanel {
         return image;
     }
 
+    //EFFECTS: builds the list of Images that make up the GIF animation
     public void makeFrames() throws Exception {
         frames = new ArrayList<>();
         frames.add(getFrame1());
@@ -320,6 +342,7 @@ public class WorkListOptions extends JPanel {
     }
 
 
+    //EFFECTS: constructs the panel that appears when the Save button is pushed, along with the GIF animation
     public JPanel makePopUpPanel() {
         popUpGIF = new JPanel(new BorderLayout());
         final JLabel animation = new JLabel(new ImageIcon(frames.get(0)));

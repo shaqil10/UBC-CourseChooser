@@ -12,6 +12,7 @@ public class Toolbar extends JTabbedPane {
     WorklistPage worklistPage;
     CourseInfoPage courseInfoPage;
 
+    //constructs the layout of the GUI into the three tabs: search, worklist, and course info
     public Toolbar(CourseChooser courseChooser) {
         this.courseChooser = courseChooser;
         searchPage = new SearchPage(courseChooser);
@@ -19,6 +20,8 @@ public class Toolbar extends JTabbedPane {
         courseInfoPage = new CourseInfoPage(courseChooser);
     }
 
+    //EFFECTS: initalizes the tabs and adds it to the main frame
+    //Source: https://examples.javacodegeeks.com/desktop-java/swing/jtabbedpane/create-jtabbedpane-example/
     public void addComponentToPane(Container pane) {
         JTabbedPane toolbar = new JTabbedPane();
 

@@ -18,6 +18,8 @@ public class CourseInfoOptions extends JPanel {
     JButton infoButton;
     JLabel optionsLabel;
 
+    //constructs the course info options panel where the user can input a courseID and select an option for
+    //grades, stats, or general info
     public CourseInfoOptions(CourseChooser courseChooser, CourseInfoPage courseInfoPage) {
         this.courseChooser = courseChooser;
         this.courseInfoPage = courseInfoPage;
@@ -43,6 +45,7 @@ public class CourseInfoOptions extends JPanel {
 
     }
 
+    //EFFECTS: initializes the "Show me!" button and its functionality
     private void initButton(CourseChooser courseChooser, CourseInfoPage courseInfoPage) {
         infoButton = new JButton("Show me!");
         infoButton.addActionListener(new ActionListener() {
@@ -56,6 +59,7 @@ public class CourseInfoOptions extends JPanel {
         });
     }
 
+    //EFFECTS: sets up the grid layout on the course information options panel
     private void setUpGrid(GridBagConstraints gc) {
         //FIRST ROW//
         gc.weightx = 1;

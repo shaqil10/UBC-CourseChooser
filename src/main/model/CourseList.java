@@ -81,6 +81,7 @@ public class CourseList implements Saveable {
         this.listCourse = listCourse;
     }
 
+    //EFFECTS: saves the worklist to file
     @Override
     public void save(PrintWriter printWriter) {
         for (int i = 0; i < this.getSize(); i++) {

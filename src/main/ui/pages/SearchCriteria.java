@@ -22,6 +22,8 @@ public class SearchCriteria extends JPanel {
     JTextField averageField;
     CourseChooser courseChooser;
 
+    //constructs the panel containing the text fields and buttons that a user can input the information to search
+    // for courses
     public SearchCriteria(CourseChooser courseChooser, SearchPage searchPage) {
         this.courseChooser = courseChooser;
         this.searchPage = searchPage;
@@ -51,12 +53,14 @@ public class SearchCriteria extends JPanel {
         placeButton(gc);
     }
 
+    //EFFECTS: constructs the borders in the search criteria panel
     private void initBorders() {
         Border titleBorder = BorderFactory.createTitledBorder("Fill in the following search criteria:");
         Border innerBorder = BorderFactory.createLineBorder(Color.BLACK,1,true);
         setBorder(BorderFactory.createCompoundBorder(innerBorder,titleBorder));
     }
 
+    //EFFECTS: places the "Search" button on a specific position in the grid layout of the search criteria panel
     private void placeButton(GridBagConstraints gc) {
         //BUTTON ROW//
         gc.weightx = 1;
@@ -68,6 +72,7 @@ public class SearchCriteria extends JPanel {
         add(searchButton,gc);
     }
 
+    //EFFECTS: initializes labels and text fields in the third row of the search criteria panel
     private void setUpGridRow3(GridBagConstraints gc) {
         //THIRD ROW//
         gc.weightx = 1;
@@ -84,6 +89,7 @@ public class SearchCriteria extends JPanel {
         add(averageField,gc);
     }
 
+    //EFFECTS: initializes labels and text fields in the second row of the search criteria panel
     private void setUpGridRow2(GridBagConstraints gc) {
         //SECOND ROW//
         gc.weightx = 1;
@@ -100,6 +106,7 @@ public class SearchCriteria extends JPanel {
         add(yearField,gc);
     }
 
+    //EFFECTS: initializes labels and text fields in the first row of the search criteria panel
     private void setUpGridRow1(GridBagConstraints gc) {
         //FIRST ROW//
         gc.weightx = 1;
@@ -119,6 +126,7 @@ public class SearchCriteria extends JPanel {
         add(subjectField,gc);
     }
 
+    //EFFECTS: initializes the Search button and its functionality
     private void initButton(CourseChooser courseChooser, SearchPage searchPage) {
         searchButton = new JButton("Search!");
         searchButton.addActionListener(new ActionListener() {

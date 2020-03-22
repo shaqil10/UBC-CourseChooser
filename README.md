@@ -42,7 +42,7 @@ where I left off
 
 1. The first tab, which the application begins, is the first of my user stories. The user can
 provide the three criteria which they are looking for in the text fields: subject, year level, and 
-desired average. Once the criteria are chosen and the "Search!" button is cliked, the application will search through my hard-coded database (UBC Pair API not implemented yet), 
+desired average. Once the criteria are chosen and the "Search!" button is clicked, the application will search through my hard-coded database (UBC Pair API not implemented yet), 
 and will display the courses in the database that match those criteria.
 
 2. The second tab is the worklist page which relates to user stories 2-4 and 6-7. The application automatically
@@ -63,4 +63,9 @@ When the user hits "Show Me!", the information will be displayed on the text are
 
 4. Audiovisual component: For my A/V component, when you hit the save button, a GIF should appear! The thinking man.
 Just wanting to let you know that you're smart for saving your work.
+
+5. As mentioned previously, the save functionality is done on the worklist page when you hit the "Save" button
+or if the window is closed, the user has the option to save that way as well. There is no specific load button, but the
+program automatically loads the worklist saved on the file so if you save your worklist and open it up again, the program
+starts where you left off.
 

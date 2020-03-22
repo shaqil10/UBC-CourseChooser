@@ -36,6 +36,7 @@ public class CourseChooser extends JFrame {
         initializeGraphics();
     }
 
+    //EFFECTS: initializes all of the pages and the window itself for the GUI
     private void initializeGraphics() {
         this.toolbar = new Toolbar(this);
 
@@ -58,6 +59,9 @@ public class CourseChooser extends JFrame {
     }
 
 
+    //EFFECTS: takes in the criteria from the SearchCriteria panel and searches the
+    // database for courses that match the criteria and displays them on the SearchPage
+    // if the average provided wasn't a valid number, a NumberFormatException should be caught here
     public void produceSearchResults(String subject, String year, String average, SearchPage searchPage) {
         JTextArea searchResult = searchPage.getSearchResult();
         try {
@@ -75,6 +79,9 @@ public class CourseChooser extends JFrame {
         }
     }
 
+    //EFFECTS: takes in the courseID input and choice of information from the WorklistOptions panel
+    // and displays the corresponding course information on the WorklistPage
+    // if the course wasn't found, an error message is displayed
     public void returnCourseResults(String courseID, String option, CourseInfoPage courseInfoPage) {
         JTextArea infoDisplay = courseInfoPage.getDisplayedInfo();
         boolean found = false;
@@ -342,6 +349,9 @@ public class CourseChooser extends JFrame {
         new CourseChooser();
     }
 
+    //EFFECTS: when the "Add" button is clicked on the WorklistPage, the courseID provided is matched
+    // to a course in the database and added to the existing worklist
+    // If no courseID exists, an error message is displayed
     public void addCourse(String courseAdded, WorklistPage worklistPage) {
         JTextArea worklistDisplay = worklistPage.getPersonalWorklist();
         boolean added = false;
@@ -361,6 +371,8 @@ public class CourseChooser extends JFrame {
         }
     }
 
+
+    //EFFECTS: displays the user's personalized worklist on the WorklistPage
     public void displayWorklist(JTextArea worklistDisplay) {
         worklistDisplay.append("Your personalized worklist:\n\n");
 
@@ -373,6 +385,9 @@ public class CourseChooser extends JFrame {
         }
     }
 
+    //EFFECTS: when the "Remove" button is clicked on the WorklistPage, the courseID provided is matched
+    // to a course in the existing worklist and is removed
+    // If no courseID exists, an error message is displayed
     public void removeCourse(String courseToRemove, WorklistPage worklistPage) {
         JTextArea worklistDisplay = worklistPage.getPersonalWorklist();
 

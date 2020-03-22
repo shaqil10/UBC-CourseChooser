@@ -12,6 +12,7 @@ public class CourseInfoPage extends JPanel {
     JTextArea displayedInfo;
     CourseInfoOptions courseInfoOptions;
 
+    //constructs the Course Info tab
     public CourseInfoPage(CourseChooser courseChooser) {
         this.courseChooser = courseChooser;
         setLayout(new BorderLayout());
@@ -24,6 +25,7 @@ public class CourseInfoPage extends JPanel {
         add(courseInfoOptions, BorderLayout.NORTH);
     }
 
+    //EFFECTS: clears the displayedInfo JTextArea
     public void removeText() {
         displayedInfo.setText("");
     }
