@@ -18,17 +18,8 @@ public class Toolbar extends JTabbedPane {
         searchPage = new SearchPage(courseChooser);
         worklistPage = new WorklistPage(courseChooser);
         courseInfoPage = new CourseInfoPage(courseChooser);
-    }
-
-    //EFFECTS: initalizes the tabs and adds it to the main frame
-    //Source: https://examples.javacodegeeks.com/desktop-java/swing/jtabbedpane/create-jtabbedpane-example/
-    public void addComponentToPane(Container pane) {
-        JTabbedPane toolbar = new JTabbedPane();
-
-        toolbar.addTab("Search", searchPage);
-        toolbar.addTab("Worklist", worklistPage);
-        toolbar.addTab("Course Info", courseInfoPage);
-
-        pane.add(toolbar, BorderLayout.CENTER);
+        addTab("Search", searchPage);
+        addTab("Worklist", worklistPage);
+        addTab("Course Info", courseInfoPage);
     }
 }

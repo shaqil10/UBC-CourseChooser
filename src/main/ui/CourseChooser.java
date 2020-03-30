@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
@@ -41,7 +40,7 @@ public class CourseChooser extends JFrame {
         this.toolbar = new Toolbar(this);
 
         setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        toolbar.addComponentToPane(getContentPane());
+        add(toolbar);
         //Source: StackOverflow https://stackoverflow.com/questions/9093448/how-to-capture-a-jframes-close-button-click-event
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
