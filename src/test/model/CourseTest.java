@@ -10,20 +10,36 @@ import static org.junit.jupiter.api.Assertions.*;
 class CourseTest {
     Course c15;
     JTextArea testTextArea;
-    Grades grades;
-    Stats stats;
+    Grades c15grades;
+    Stats c15stats;
+    Instructor c15Instructor;
 
     @BeforeEach
     public void runBefore() {
+        c15stats = new Stats(null,70.34, 14.74, 99, 32, 107, 11, 3);
+        c15grades = new Grades(null,0, 0, 0, 2, 9, 11,
+                7, 9, 13, 10, 10, 7,
+                12, 15, 15, 9);
+
         c15 = new Course("UBC-2017W-COMM-457-101", "2017W", "COMM", "457",
                 "101", "FNDTLS FIN ACCT", new Instructor("Sinclair, Scott", "4.5/5"),
-                121, new Stats(70.34, 14.74, 99, 32, 107, 11, 3),
-                new Grades(0, 0, 0, 2, 9, 11, 7,
-                        9, 13, 10, 10, 7, 12,
-                        15, 15, 9));
+                121, null,null);
+        c15Instructor = c15.getInstructor();
         testTextArea = new JTextArea();
-        grades = c15.getGrades();
-        stats = c15.getStats();
+    }
+
+    @Test
+    public void testSetStatsAndGrades() {
+        assertTrue(c15.isStatsNull());
+        assertTrue(c15.isGradesNull());
+        assertTrue(c15stats.isCourseNull());
+        assertTrue(c15grades.isCourseNull());
+        c15.setGrades(c15grades);
+        c15.setStats(c15stats);
+        assertEquals(c15stats, c15.getStats());
+        assertEquals(c15grades, c15.getGrades());
+        assertEquals(c15, c15stats.getCourse());
+        assertEquals(c15, c15grades.getCourse());
     }
 
     @Test
@@ -63,11 +79,13 @@ class CourseTest {
 
     @Test
     public void testGetStats() {
+        c15.setStats(c15stats);
         assertEquals(70.34, c15.getStats().getAverage());
     }
 
     @Test
     public void testGetGrades() {
+        c15.setGrades(c15grades);
         assertEquals(11, c15.getGrades().getLessThan50());
     }
 
@@ -80,41 +98,43 @@ class CourseTest {
         + "Course Code :         " + c15.getCourseNum() + "\n"
         + "Section :                   " + c15.getSection() + "\n"
         + "Course Name :         " + c15.getTitle() + "\n"
-        + "Instructor :                  " + c15.getInstructor().getName() + "\n"
-        + "RateMyProfessor :   " + c15.getInstructor().getRating() + "\n"
+        + "Instructor :                  " + c15Instructor.getName() + "\n"
+        + "RateMyProfessor :   " + c15Instructor.getRating() + "\n"
         + "Enrolled :                   " + String.valueOf(c15.getEnrolled()) + "\n",testTextArea.getText());
     }
 
     @Test
     public void testGradesToString() {
+        c15.setGrades(c15grades);
         c15.toString(testTextArea, "Grade Distribution");
-        assertEquals("0-9 %        : " + String.valueOf(grades.getZeroTo9()) + "\n"
-        + "10-19 %   : " + String.valueOf(grades.getTenTo19()) + "\n"
-        + "20-29 %   : " + String.valueOf(grades.getTwentyTo29()) + "\n"
-        + "30-39 %   : " + String.valueOf(grades.getThirtyTo39()) + "\n"
-        + "40-49 %   : " + String.valueOf(grades.getFortyTo49()) + "\n"
-        + "<50 %       : " + String.valueOf(grades.getLessThan50()) + "\n"
-        + "50-54 %   : " + String.valueOf(grades.getFiftyTo54()) + "\n"
-        + "55-59 %   : " + String.valueOf(grades.getFiftyFiveTo59()) + "\n"
-        + "60-63 %   : " + String.valueOf(grades.getSixtyTo63()) + "\n"
-        + "64-67 %   : " + String.valueOf(grades.getSixtyFourTo67()) + "\n"
-        + "68-71 %   : " + String.valueOf(grades.getSixtyEightTo71()) + "\n"
-        + "72-75 %   : " + String.valueOf(grades.getSeventyTwoTo75()) + "\n"
-        + "76-79 %   : " + String.valueOf(grades.getSeventySixTo79()) + "\n"
-        + "80-84 %   : " + String.valueOf(grades.getEightyTo84()) + "\n"
-        + "85-89 %   : " + String.valueOf(grades.getEightyFiveTo89()) + "\n"
-        + "90-100 % : " + String.valueOf(grades.getNinetyTo100()) + "\n", testTextArea.getText());
+        assertEquals("0-9 %        : " + String.valueOf(c15grades.getZeroTo9()) + "\n"
+        + "10-19 %   : " + String.valueOf(c15grades.getTenTo19()) + "\n"
+        + "20-29 %   : " + String.valueOf(c15grades.getTwentyTo29()) + "\n"
+        + "30-39 %   : " + String.valueOf(c15grades.getThirtyTo39()) + "\n"
+        + "40-49 %   : " + String.valueOf(c15grades.getFortyTo49()) + "\n"
+        + "<50 %       : " + String.valueOf(c15grades.getLessThan50()) + "\n"
+        + "50-54 %   : " + String.valueOf(c15grades.getFiftyTo54()) + "\n"
+        + "55-59 %   : " + String.valueOf(c15grades.getFiftyFiveTo59()) + "\n"
+        + "60-63 %   : " + String.valueOf(c15grades.getSixtyTo63()) + "\n"
+        + "64-67 %   : " + String.valueOf(c15grades.getSixtyFourTo67()) + "\n"
+        + "68-71 %   : " + String.valueOf(c15grades.getSixtyEightTo71()) + "\n"
+        + "72-75 %   : " + String.valueOf(c15grades.getSeventyTwoTo75()) + "\n"
+        + "76-79 %   : " + String.valueOf(c15grades.getSeventySixTo79()) + "\n"
+        + "80-84 %   : " + String.valueOf(c15grades.getEightyTo84()) + "\n"
+        + "85-89 %   : " + String.valueOf(c15grades.getEightyFiveTo89()) + "\n"
+        + "90-100 % : " + String.valueOf(c15grades.getNinetyTo100()) + "\n", testTextArea.getText());
     }
 
     @Test
     public void testStatsToString() {
+        c15.setStats(c15stats);
         c15.toString(testTextArea, "Statistics");
-        assertEquals("Mean :      " + String.valueOf(stats.getAverage()) + "\n"
-        + "StDev :     " + String.valueOf(stats.getStDev()) + "\n"
-        + "High :        " + String.valueOf(stats.getHigh()) + "\n"
-        + "Low :         " + String.valueOf(stats.getLow()) + "\n"
-        + "Pass :       " + String.valueOf(stats.getPass()) + "\n"
-        + "Fail :          " + String.valueOf(stats.getFail()) + "\n"
-        + "Withdrew : " + String.valueOf(stats.getWithdrew()) + "\n", testTextArea.getText());
+        assertEquals("Mean :      " + String.valueOf(c15stats.getAverage()) + "\n"
+        + "StDev :     " + String.valueOf(c15stats.getStDev()) + "\n"
+        + "High :        " + String.valueOf(c15stats.getHigh()) + "\n"
+        + "Low :         " + String.valueOf(c15stats.getLow()) + "\n"
+        + "Pass :       " + String.valueOf(c15stats.getPass()) + "\n"
+        + "Fail :          " + String.valueOf(c15stats.getFail()) + "\n"
+        + "Withdrew : " + String.valueOf(c15stats.getWithdrew()) + "\n", testTextArea.getText());
     }
 }

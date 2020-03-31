@@ -3,7 +3,6 @@ package ui.pages;
 import ui.CourseChooser;
 
 import javax.swing.*;
-import java.awt.*;
 
 // represents the toolbar containing the 3 tabs and the user can navigate between the pages using the TabbedPane
 public class Toolbar extends JTabbedPane {

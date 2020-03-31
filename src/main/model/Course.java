@@ -92,6 +92,34 @@ public class Course {
         }
     }
 
+    //MODIFIES: this, stats
+    //EFFECTS: assigns these stats to the course
+    public void setStats(Stats stats) {
+        if ((isStatsNull()) || (stats.getCourse() == null) || (stats.getCourse() != this) || (this.stats != stats)) {
+            this.stats = stats;
+            stats.setCourse(this);
+        }
+    }
+
+    public boolean isStatsNull() {
+        return (this.stats == null);
+    }
+
+    //MODIFIES: this, grade
+    //EFFECTS: assigns these grades to the course
+    public void setGrades(Grades grade) {
+        if ((!isGradesNull()) && (grades.getCourse() != null)
+                && (grades.getCourse() == this) && (this.grades == grade)) {
+            return;
+        }
+        this.grades = grade;
+        grade.setCourse(this);
+    }
+
+    public boolean isGradesNull() {
+        return (this.grades == null);
+    }
+
     //EFFECTS: Prints out all of the general information for a course onto infoDisplay
     public String infoToString(JTextArea infoDisplay) {
         infoDisplay.append("Course ID :               " + getId() + "\n");
