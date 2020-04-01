@@ -3,16 +3,13 @@ package ui.pages;
 import ui.CourseChooser;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static javax.swing.BorderFactory.createTitledBorder;
 
 //represents the panel on the SearchPage where a user can input their search criteria
-public class SearchCriteria extends JPanel {
-    private SearchPage searchPage;
+public class SearchCriteria extends SubPanel {
     private JLabel subjectLabel;
     private JLabel yearLabel;
     private JLabel averageLabel;
@@ -20,48 +17,46 @@ public class SearchCriteria extends JPanel {
     JComboBox<String> subjectField;
     JComboBox<String> yearField;
     JTextField averageField;
-    CourseChooser courseChooser;
 
     //constructs the panel containing the text fields and buttons that a user can input the information to search
     // for courses
-    public SearchCriteria(CourseChooser courseChooser, SearchPage searchPage) {
-        this.courseChooser = courseChooser;
-        this.searchPage = searchPage;
-        Dimension dim = getPreferredSize();
-        dim.width = 300;
-        dim.height = 300;
-        setPreferredSize(dim);
-        subjectLabel = new JLabel("Subject:");
-        yearLabel = new JLabel("Year:");
-        averageLabel = new JLabel("Desired Average:");
+    public SearchCriteria(CourseChooser courseChooser, MainPanel searchPage) {
+        super(courseChooser, searchPage, 300, "Fill in the following search criteria:");
+        initLabels();
+        initComboBoxes();
+        averageField = new JTextField("Enter a number between 0-100",16);
+        initSearchButton();
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.NONE;
+        setUpGrid(gc);
+        placeSearchButton(gc);
+    }
 
+    //EFFECTS: initializes the two drop-down menus for the subject and year level
+    private void initComboBoxes() {
         String [] subjects = {"CPSC", "MATH", "CHEM", "COMM"};
         subjectField = new JComboBox<>(subjects);
         String [] years = {"1","2","3","4"};
         yearField = new JComboBox<>(years);
-        averageField = new JTextField("Enter a number between 0-100",16);
+    }
 
-        initButton(courseChooser, searchPage);
+    //EFFECTS: initializes the subject, year, and average labels
+    private void initLabels() {
+        subjectLabel = initLabel("Subject:");
+        yearLabel = initLabel("Year:");
+        averageLabel = initLabel("Desired Average:");
+    }
 
-        initBorders();
-
-        setLayout(new GridBagLayout());
-        GridBagConstraints gc = new GridBagConstraints();
+    //EFFECTS: initializes the entire layout of the panel and places all components
+    @Override
+    protected void setUpGrid(GridBagConstraints gc) {
         setUpGridRow1(gc);
         setUpGridRow2(gc);
         setUpGridRow3(gc);
-        placeButton(gc);
     }
 
-    //EFFECTS: constructs the borders in the search criteria panel
-    private void initBorders() {
-        Border titleBorder = BorderFactory.createTitledBorder("Fill in the following search criteria:");
-        Border innerBorder = BorderFactory.createLineBorder(Color.BLACK,1,true);
-        setBorder(BorderFactory.createCompoundBorder(innerBorder,titleBorder));
-    }
-
-    //EFFECTS: places the "Search" button on a specific position in the grid layout of the search criteria panel
-    private void placeButton(GridBagConstraints gc) {
+    //EFFECTS: places the "Search" button on the panel
+    private void placeSearchButton(GridBagConstraints gc) {
         //BUTTON ROW//
         gc.weightx = 1;
         gc.weighty = 2.0;
@@ -114,7 +109,6 @@ public class SearchCriteria extends JPanel {
 
         gc.gridx = 0;
         gc.gridy = 0;
-        gc.fill = GridBagConstraints.NONE;
         gc.anchor = GridBagConstraints.LINE_END;
         gc.insets = new Insets(0,0,0,5);
 
@@ -127,16 +121,16 @@ public class SearchCriteria extends JPanel {
     }
 
     //EFFECTS: initializes the Search button and its functionality
-    private void initButton(CourseChooser courseChooser, SearchPage searchPage) {
-        searchButton = new JButton("Search!");
+    private void initSearchButton() {
+        searchButton = initButton("Search!");
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                searchPage.removeText();
+                mainPanel.removeText();
                 String subject = (String) subjectField.getSelectedItem();
                 String year = (String) yearField.getSelectedItem();
                 String average = averageField.getText();
 
-                courseChooser.produceSearchResults(subject,year,average,searchPage);
+                courseChooser.produceSearchResults(subject,year,average, mainPanel);
             }
         });
     }

@@ -2,16 +2,13 @@ package ui.pages;
 
 import ui.CourseChooser;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
 //represents the panel on the WorklistPage where users can either remove or add courses to their worklist or save
-public class WorkListOptions extends JPanel {
-    CourseChooser courseChooser;
-    WorklistPage worklistPage;
+public class WorkListOptions extends SubPanel {
     JButton saveButton;
     JButton addButton;
     JButton removeButton;
@@ -19,31 +16,20 @@ public class WorkListOptions extends JPanel {
     JTextField addRemoveField;
 
     //constructs the worklist options panel with buttons, labels, and fields
-    public WorkListOptions(CourseChooser courseChooser, WorklistPage worklistPage) {
-        this.courseChooser = courseChooser;
-        this.worklistPage = worklistPage;
+    public WorkListOptions(CourseChooser courseChooser, MainPanel worklistPage) {
+        super(courseChooser, worklistPage, 250, "Worklist Options");
 
-        addRemoveLabel = new JLabel("Enter the course ID of a course you would like to add or remove.");
+        addRemoveLabel = initLabel("Enter the course ID of a course you would like to add or remove.");
         addRemoveField = new JTextField("Ex. UBC-2018W-MATH-100-101", 25);
-
-        initButtons(courseChooser, worklistPage);
-
-        Dimension dim = getPreferredSize();
-        dim.height = 250;
-        setPreferredSize(dim);
-        Border titleBorder = BorderFactory.createTitledBorder("Worklist Options");
-        Border innerBorder = BorderFactory.createLineBorder(Color.BLACK, 1, true);
-        setBorder(BorderFactory.createCompoundBorder(innerBorder, titleBorder));
-
-        setLayout(new GridBagLayout());
+        initButtons();
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.NONE;
         setUpGrid(gc);
     }
 
-    //EFFECTS: initializes the layout of the worklist options panel with GridLayout, and adds labels,
-    // fields, and buttons
-    private void setUpGrid(GridBagConstraints gc) {
+    //EFFECTS: initializes the layout of the worklist options panel
+    @Override
+    protected void setUpGrid(GridBagConstraints gc) {
         //FIRST COLUMN//
         gc.weightx = 1;
         gc.weighty = 1;
@@ -80,47 +66,50 @@ public class WorkListOptions extends JPanel {
     }
 
     //EFFECTS: initializes the save, add, and remove buttons
-    private void initButtons(CourseChooser courseChooser, WorklistPage worklistPage) {
-        initAddButton(courseChooser, worklistPage);
-
-        initRemoveButton(courseChooser, worklistPage);
-
-        initSaveButton(courseChooser, worklistPage);
+    private void initButtons() {
+        initAddButton();
+        initRemoveButton();
+        initSaveButton();
     }
 
     //EFFECTS: constructs the Save button and its function
-    private void initSaveButton(CourseChooser courseChooser, WorklistPage worklistPage) {
-        saveButton = new JButton("Save");
+    private void initSaveButton() {
+        saveButton = initButton("Save");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 GifPanel popUpPanel = new GifPanel();
-                JOptionPane.showMessageDialog(worklistPage, popUpPanel,"You smart.",1);
+                JOptionPane.showMessageDialog(mainPanel, popUpPanel,"You smart.",1);
                 courseChooser.saveWorklist();
             }
         });
     }
 
     //EFFECTS: constructs the Remove button and its function
-    private void initRemoveButton(CourseChooser courseChooser, WorklistPage worklistPage) {
-        removeButton = new JButton("Remove");
-        removeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                worklistPage.removeText();
-                String courseToRemove = addRemoveField.getText();
-                courseChooser.removeCourse(courseToRemove, worklistPage);
-            }
-        });
+    private void initRemoveButton() {
+        removeButton = createAddRemoveButton("Remove");
     }
 
     //EFFECTS: constructs the Add button and its function
-    private void initAddButton(CourseChooser courseChooser, WorklistPage worklistPage) {
-        addButton = new JButton("Add");
-        addButton.addActionListener(new ActionListener() {
+    private void initAddButton() {
+        addButton = createAddRemoveButton("Add");
+    }
+
+    //EFFECTS: abstract method for adding an add or remove button
+    private JButton createAddRemoveButton(String addremove) {
+        JButton thisButton = new JButton(addremove);
+        thisButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                worklistPage.removeText();
-                String courseAdded = addRemoveField.getText();
-                courseChooser.addCourse(courseAdded, worklistPage);
+                initializeButtonEvent(mainPanel, addremove);
             }
         });
+        return thisButton;
     }
+
+    //EFFECTS: edits the worklist according to which button was pressed
+    private void initializeButtonEvent(MainPanel worklistPage, String editOption) {
+        worklistPage.removeText();
+        String courseEdited = addRemoveField.getText();
+        courseChooser.editWorkList(courseEdited, worklistPage, editOption);
+    }
+
 }

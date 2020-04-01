@@ -20,7 +20,6 @@ public class Stats {
         this.pass = pass;
         this.fail = fail;
         this.withdrew = withdrew;
-
     }
 
     //MODIFIES: this, course

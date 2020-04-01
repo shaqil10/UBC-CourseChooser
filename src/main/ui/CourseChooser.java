@@ -3,10 +3,7 @@ package ui;
 import model.*;
 import persistence.Reader;
 import persistence.Writer;
-import ui.pages.CourseInfoPage;
-import ui.pages.SearchPage;
-import ui.pages.Toolbar;
-import ui.pages.WorklistPage;
+import ui.pages.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,8 +58,8 @@ public class CourseChooser extends JFrame {
     //EFFECTS: takes in the criteria from the SearchCriteria panel and searches the
     // database for courses that match the criteria and displays them on the SearchPage
     // if the average provided wasn't a valid number, a NumberFormatException should be caught here
-    public void produceSearchResults(String subject, String year, String average, SearchPage searchPage) {
-        JTextArea searchResult = searchPage.getSearchResult();
+    public void produceSearchResults(String subject, String year, String average, MainPanel searchPage) {
+        JTextArea searchResult = searchPage.getInfoDisplay();
         try {
             CourseList searchResults = courseList.searcher(subject, year, parseInt(average));
             if (searchResults.getSize() == 0) {
@@ -81,8 +78,8 @@ public class CourseChooser extends JFrame {
     //EFFECTS: takes in the courseID input and choice of information from the WorklistOptions panel
     // and displays the corresponding course information on the WorklistPage
     // if the course wasn't found, an error message is displayed
-    public void returnCourseResults(String courseID, String option, CourseInfoPage courseInfoPage) {
-        JTextArea infoDisplay = courseInfoPage.getDisplayedInfo();
+    public void returnCourseResults(String courseID, String option, MainPanel courseInfoPage) {
+        JTextArea infoDisplay = courseInfoPage.getInfoDisplay();
         boolean found = false;
         for (Course i : courseList.getListCourse()) {
             if (courseID.equals(i.getId())) {
@@ -119,6 +116,61 @@ public class CourseChooser extends JFrame {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error
+        }
+    }
+
+    //EFFECTS: when the "Add" or "Remove" button is clicked on the WorklistPage with a valid courseID, the course is
+    // either removed or added from the worklist depending on the button chosen
+    // If no courseID exists, an error message is displayed
+    public void editWorkList(String courseToEdit, MainPanel worklistPage, String editOption) {
+        JTextArea worklistDisplay = worklistPage.getInfoDisplay();
+        boolean edited = false;
+
+        if (editOption == "Remove") {
+            for (Course i : myList.getListCourse()) {
+                if (courseToEdit.equals(i.getId())) {
+                    edited = implementEdits(worklistDisplay, i, editOption);
+                    break;
+                }
+            }
+        } else if (editOption == "Add") {
+            for (Course i : courseList.getListCourse()) {
+                if (courseToEdit.equals(i.getId())) {
+                    edited = implementEdits(worklistDisplay, i, editOption);
+                    break;
+                }
+            }
+        }
+
+        if (!edited) {
+            worklistDisplay.append("Sorry, I couldn't find that course!\n\n");
+        }
+        displayWorklist(worklistDisplay);
+    }
+
+
+    private boolean implementEdits(JTextArea worklistDisplay, Course i, String editOption) {
+        if (editOption == "Add") {
+            myList.addCourse(i);
+            worklistDisplay.append("I added " + i.getId() + " to your worklist!\n\n");
+        } else {
+            myList.removeCourse(i);
+            worklistDisplay.append("I removed " + i.getId() + " to your worklist!\n\n");
+        }
+        return true;
+    }
+
+
+    //EFFECTS: displays the user's personalized worklist on the WorklistPage
+    public void displayWorklist(JTextArea worklistDisplay) {
+        worklistDisplay.append("Your personalized worklist:\n\n");
+
+        if (myList.getSize() == 0) {
+            worklistDisplay.append("Your worklist is empty! Add some bad boys in there.");
+        }
+
+        for (Course course : myList.getListCourse()) {
+            worklistDisplay.append(course.getId() + "\n\n");
         }
     }
 
@@ -424,65 +476,6 @@ public class CourseChooser extends JFrame {
 
     public static void main(String[] args) {
         new CourseChooser();
-    }
-
-    //EFFECTS: when the "Add" button is clicked on the WorklistPage, the courseID provided is matched
-    // to a course in the database and added to the existing worklist
-    // If no courseID exists, an error message is displayed
-    public void addCourse(String courseAdded, WorklistPage worklistPage) {
-        JTextArea worklistDisplay = worklistPage.getPersonalWorklist();
-        boolean added = false;
-        for (Course i : courseList.getListCourse()) {
-            if (courseAdded.equals(i.getId())) {
-                myList.addCourse(i);
-                worklistDisplay.append("I added " + i.getId() + " to your worklist!\n\n");
-                displayWorklist(worklistDisplay);
-                added = true;
-                break;
-            }
-        }
-
-        if (!added) {
-            worklistDisplay.append("Sorry, I couldn't find that course!\n\n");
-            displayWorklist(worklistDisplay);
-        }
-    }
-
-
-    //EFFECTS: displays the user's personalized worklist on the WorklistPage
-    public void displayWorklist(JTextArea worklistDisplay) {
-        worklistDisplay.append("Your personalized worklist:\n\n");
-
-        if (myList.getSize() == 0) {
-            worklistDisplay.append("Your worklist is empty! Add some bad boys in there.");
-        }
-
-        for (Course course : myList.getListCourse()) {
-            worklistDisplay.append(course.getId() + "\n\n");
-        }
-    }
-
-    //EFFECTS: when the "Remove" button is clicked on the WorklistPage, the courseID provided is matched
-    // to a course in the existing worklist and is removed
-    // If no courseID exists, an error message is displayed
-    public void removeCourse(String courseToRemove, WorklistPage worklistPage) {
-        JTextArea worklistDisplay = worklistPage.getPersonalWorklist();
-
-        boolean removed = false;
-        for (Course i : myList.getListCourse()) {
-            if (courseToRemove.equals(i.getId())) {
-                myList.removeCourse(i);
-                worklistDisplay.append("I removed " + i.getId() + " to your worklist!\n\n");
-                displayWorklist(worklistDisplay);
-                removed = true;
-                break;
-            }
-        }
-
-        if (!removed) {
-            worklistDisplay.append("Sorry, I couldn't find that course!\n\n");
-            displayWorklist(worklistDisplay);
-        }
     }
 }
 
