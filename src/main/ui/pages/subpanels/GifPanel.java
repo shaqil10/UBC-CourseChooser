@@ -1,4 +1,4 @@
-package ui.pages;
+package ui.pages.subpanels;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

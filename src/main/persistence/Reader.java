@@ -40,7 +40,6 @@ public class Reader {
         return new ArrayList<>(Arrays.asList(splits));
     }
 
-    //**add break or something to remove redundant searching**
     //EFFECTS: returns a new worklist by parsing a list of strings containing the ID's of each course in the list
     // and matching them to the corresponding course in the database and adding it to the worklist
     private static CourseList parseWorklist(List<String> components, CourseList database) {

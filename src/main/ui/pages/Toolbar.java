@@ -1,6 +1,9 @@
 package ui.pages;
 
 import ui.CourseChooser;
+import ui.pages.tabs.CourseInfoPage;
+import ui.pages.tabs.SearchPage;
+import ui.pages.tabs.WorklistPage;
 
 import javax.swing.*;
 

@@ -4,6 +4,7 @@ import model.*;
 import persistence.Reader;
 import persistence.Writer;
 import ui.pages.*;
+import ui.pages.tabs.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -141,7 +142,6 @@ public class CourseChooser extends JFrame {
                 }
             }
         }
-
         if (!edited) {
             worklistDisplay.append("Sorry, I couldn't find that course!\n\n");
         }
@@ -149,6 +149,8 @@ public class CourseChooser extends JFrame {
     }
 
 
+    //EFFECTS: Either adds or removes the course to the worklist depending on the editOption and appends the appropriate
+    // text to the display window
     private boolean implementEdits(JTextArea worklistDisplay, Course i, String editOption) {
         if (editOption == "Add") {
             myList.addCourse(i);

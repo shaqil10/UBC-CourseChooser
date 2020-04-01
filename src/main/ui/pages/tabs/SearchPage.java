@@ -1,8 +1,10 @@
-package ui.pages;
+package ui.pages.tabs;
 
 import ui.CourseChooser;
-import java.awt.*;
+import ui.pages.subpanels.SearchCriteria;
+import ui.pages.subpanels.SubPanel;
 
+import java.awt.*;
 
 //represents the first tab of the GUI where users can search for courses matching the given criteria
 public class SearchPage extends MainPanel {

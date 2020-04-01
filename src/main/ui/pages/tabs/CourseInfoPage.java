@@ -1,6 +1,9 @@
-package ui.pages;
+package ui.pages.tabs;
 
 import ui.CourseChooser;
+import ui.pages.subpanels.CourseInfoOptions;
+import ui.pages.subpanels.SubPanel;
+
 import java.awt.*;
 
 // represents the 3rd tab of the GUI where users can search for more detailed information on a specific course

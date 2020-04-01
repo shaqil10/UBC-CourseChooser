@@ -1,4 +1,4 @@
-package ui.pages;
+package ui.pages.tabs;
 
 import ui.CourseChooser;
 import javax.swing.*;

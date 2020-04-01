@@ -1,9 +1,9 @@
-package ui.pages;
+package ui.pages.tabs;
 
-import model.Course;
 import ui.CourseChooser;
+import ui.pages.subpanels.SubPanel;
+import ui.pages.subpanels.WorkListOptions;
 
-import javax.swing.*;
 import java.awt.*;
 
 // represents the second tab on the graphical user interface where users can edit and see their worklist

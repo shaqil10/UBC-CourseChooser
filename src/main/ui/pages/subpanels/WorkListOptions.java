@@ -1,6 +1,8 @@
-package ui.pages;
+package ui.pages.subpanels;
 
 import ui.CourseChooser;
+import ui.pages.tabs.MainPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,12 +21,17 @@ public class WorkListOptions extends SubPanel {
     public WorkListOptions(CourseChooser courseChooser, MainPanel worklistPage) {
         super(courseChooser, worklistPage, 250, "Worklist Options");
 
-        addRemoveLabel = initLabel("Enter the course ID of a course you would like to add or remove.");
-        addRemoveField = new JTextField("Ex. UBC-2018W-MATH-100-101", 25);
-        initButtons();
+        initComponents();
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.NONE;
         setUpGrid(gc);
+    }
+
+    //EFFECTS: initializes all components in the panel
+    private void initComponents() {
+        addRemoveLabel = initLabel("Enter the course ID of a course you would like to add or remove.");
+        addRemoveField = new JTextField("Ex. UBC-2018W-MATH-100-101", 25);
+        initButtons();
     }
 
     //EFFECTS: initializes the layout of the worklist options panel

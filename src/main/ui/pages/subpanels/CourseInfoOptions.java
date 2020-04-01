@@ -1,6 +1,7 @@
-package ui.pages;
+package ui.pages.subpanels;
 
 import ui.CourseChooser;
+import ui.pages.tabs.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +10,6 @@ import java.awt.event.ActionListener;
 
 // represents the panel on the CourseInfoPage where users can search for specific information/stats on a course
 public class CourseInfoOptions extends SubPanel {
-//    CourseChooser courseChooser;
-//    CourseInfoPage courseInfoPage;
     JLabel courseIdLabel;
     JComboBox<String> options;
     JTextField courseIdField;
@@ -22,39 +21,21 @@ public class CourseInfoOptions extends SubPanel {
     public CourseInfoOptions(CourseChooser courseChooser, MainPanel courseInfoPage) {
         super(courseChooser, courseInfoPage,200,
                 "Enter a specific course ID and choose an option:");
+
+        initComponents();
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.NONE;
+        setUpGrid(gc);
+    }
+
+    //EFFECTS: initializes all of the components in the panel
+    private void initComponents() {
         courseIdLabel = initLabel("Course ID:");
         optionsLabel = initLabel("Choose one of the following:");
         String [] choices = {"General Info", "Grade Distribution", "Statistics"};
         options = new JComboBox<>(choices);
         courseIdField = new JTextField("Ex. UBC-2018W-MATH-100-101",25);
         initShowMeButton();
-
-        GridBagConstraints gc = new GridBagConstraints();
-        gc.fill = GridBagConstraints.NONE;
-        setUpGrid(gc);
-//        this.courseChooser = courseChooser;
-//        this.courseInfoPage = courseInfoPage;
-//        courseIdLabel = new JLabel("Course ID:");
-//        String [] choices = {"General Info", "Grade Distribution", "Statistics"};
-//        optionsLabel = new JLabel("Choose one of the following:");
-//        options = new JComboBox<>(choices);
-//        courseIdField = new JTextField("Ex. UBC-2018W-MATH-100-101",25);
-//        initButton();
-//
-//
-//        Dimension dim = getPreferredSize();
-//        dim.width = 200;
-//        dim.height = 200;
-//        setPreferredSize(dim);
-//        Border titleBorder = BorderFactory.createTitledBorder("Enter a specific course ID and choose an option:");
-//        Border innerBorder = BorderFactory.createLineBorder(Color.BLACK,1,true);
-//        setBorder(BorderFactory.createCompoundBorder(innerBorder,titleBorder));
-//
-//        setLayout(new GridBagLayout());
-//        GridBagConstraints gc = new GridBagConstraints();
-//        gc.fill = GridBagConstraints.NONE;
-//        setUpGrid(gc);
-
     }
 
     //EFFECTS: initializes the "Show me!" button and its functionality
@@ -65,7 +46,6 @@ public class CourseInfoOptions extends SubPanel {
                 mainPanel.removeText();
                 String courseID = courseIdField.getText();
                 String option = (String) options.getSelectedItem();
-
                 courseChooser.returnCourseResults(courseID, option, mainPanel);
             }
         });

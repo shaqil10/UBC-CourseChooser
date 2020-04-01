@@ -1,6 +1,7 @@
-package ui.pages;
+package ui.pages.subpanels;
 
 import ui.CourseChooser;
+import ui.pages.tabs.MainPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -1,6 +1,7 @@
-package ui.pages;
+package ui.pages.subpanels;
 
 import ui.CourseChooser;
+import ui.pages.tabs.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,14 +23,20 @@ public class SearchCriteria extends SubPanel {
     // for courses
     public SearchCriteria(CourseChooser courseChooser, MainPanel searchPage) {
         super(courseChooser, searchPage, 300, "Fill in the following search criteria:");
-        initLabels();
-        initComboBoxes();
-        averageField = new JTextField("Enter a number between 0-100",16);
-        initSearchButton();
+
+        initComponents();
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.NONE;
         setUpGrid(gc);
         placeSearchButton(gc);
+    }
+
+    //EFFECTS: initializes all components in the panel
+    private void initComponents() {
+        initLabels();
+        initComboBoxes();
+        averageField = new JTextField("Enter a number between 0-100",16);
+        initSearchButton();
     }
 
     //EFFECTS: initializes the two drop-down menus for the subject and year level
