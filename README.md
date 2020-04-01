@@ -69,3 +69,56 @@ or if the window is closed, the user has the option to save that way as well. Th
 program automatically loads the worklist saved on the file so if you save your worklist and open it up again, the program
 starts where you left off.
 
+##Phase 4: Task 2
+- Implemented a bi-directional association between the Course class and the Grades class
+as well as the Course class and the Stats class
+
+The Course class has setStats and setGrades methods that illustrates the bi-directional nature where both the 
+Stats/Grades object is modified along with its own field. The pattern is mirrored in both the Stats and Grades classes
+where they have setCourse methods that also modify itself and the Course object.
+
+So effectively, every Course must be associated with a specific Grades and Stats object and vice versa.
+
+##Phase 4: Task 3
+Cohesion:  The WorkListOptions class initially had multiple responsibilities. It represented the sub-panel that was 
+on the WorkListPage, but it was also responsible for generating the GIF animation, and the panel that pops up on the screen
+when the "Save" button was pushed. I re-factored my code by splitting the responsibility of generating the GIF image and
+creating the panel that pops up when the "Save" button is clicked into a separate class called GifPanel. By doing so,
+I increased cohesion by separating responsibilities of a single class into multiple.
+
+
+Coupling: I did a large amount of re-factoring to reduce coupling in my ui package. I abstracted many similar methods
+ in my CourseChooser class such as the add and remove course methods into single methods like editWorklist,
+ and many of the methods in my ui classes for creating buttons are abstracted into a single method, so there
+ is only one method implementation that needs to be considered when altering code later on. All of this re-factoring helped
+ to reduce the coupling in my project. But the most significant change I made was that I created two super-classes called
+ MainPanel and SubPanel.
+ 
+- MainPanel represents a single tab on the Toolbar and all of the default set-up of any given
+tab in my project is captured in the MainPanel class. The individual differences between tabs are then implemented when
+a new tab class is created (which all extend MainPanel). This significantly reduced the code in all of my tab classes
+and reduces coupling as I can make a change in all of the tabs by simply altering the implementation of MainPanel. Moreover,
+all of the methods in CourseChooser that edit the text areas in my tabs now just need to take in a generic MainPanel
+object instead of the specific panel object that it needed before. I created separate packages in my ui folder called
+"tabs" and "subpanels" so it is easier to discern the separation between classes.
+
+- SubPanel is an abstract super-class that represents any of the sub-panels that are created on an individual tab or MainPanel.
+A SubPanel must be associated with a MainPanel (otherwise it would just be a main panel itself), but a MainPanel
+does not necessarily need to be associated with a SubPanel (I did this to limit the coupling between these two classes
+as it adds more flexibility to the MainPanel class). Just like MainPanel, all of the default set-up and methods that 
+are shared between all of the sub-panels is captured in the SubPanel class and all of the specific components to a sub-panel
+(like buttons, fields, labels, etc.) are implemented when a new sub-class of SubPanel is instantiated.
+There is one abstract method in SubPanel called setUpGrid which any new instance of a SubPanel subclass must over-ride
+ as it represents the method that sets up and places all of the components on the panel which is specific to the new
+ sub-panel that is being created.
+ 
+ - This hierarchy implementation significantly reduces coupling as all of the major set-up and methods that are 
+ implemented when making new tabs or sub-panels in the GUI is captured in only two classes and can be altered by simply
+ altering the implementation of these two classes (which emphasizes the single-point of control principle). By doing this,
+ I reduced the number of specific fields that each of my classes have, thereby eliminating needless associations between
+ classes.
+ Furthermore, I altered the implementation of te Toolbar class in response to these changes and created a list of tabs as
+ a field in Toolbar instead of previously, there was a field for every tab that I wanted to have. By doing this, adding a new
+ tab is much easier as you simply instantiate a MainPanel and it to the list in order to create a new tab. This reduced coupling
+ as well as making changes to the Toolbar as there is only one field to consider compared to many fields representing
+ every tab that is created. 

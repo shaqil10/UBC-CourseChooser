@@ -12,7 +12,7 @@ public class WorklistPage extends MainPanel {
 
     //constructs the worklist tab with buttons, fields, and the appropriate layout
     public WorklistPage(CourseChooser courseChooser) {
-        super(courseChooser);
+        super(courseChooser, "Worklist");
         courseChooser.displayWorklist(infoDisplay);
         workListOptions = new WorkListOptions(courseChooser,this);
         add(workListOptions, BorderLayout.SOUTH);

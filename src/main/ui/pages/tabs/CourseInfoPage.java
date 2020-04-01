@@ -12,7 +12,7 @@ public class CourseInfoPage extends MainPanel {
 
     //constructs the Course Info tab
     public CourseInfoPage(CourseChooser courseChooser) {
-        super(courseChooser);
+        super(courseChooser, "Course Info");
         courseInfoOptions = new CourseInfoOptions(courseChooser, this);
         add(courseInfoOptions, BorderLayout.NORTH);
     }
