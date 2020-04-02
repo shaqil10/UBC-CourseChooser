@@ -11,6 +11,9 @@ class GradesTest {
     Grades c15grades;
     Stats c15stats;
     Instructor c15Instructor;
+    Course c8;
+    Grades c8grades;
+    Stats c8stats;
 
     @BeforeEach
     public void runBefore() {
@@ -24,16 +27,58 @@ class GradesTest {
                 121, c15stats,c15grades);
         c15stats.setCourse(c15);
         c15Instructor = c15.getInstructor();
+
+        c8 = new Course("UBC-2017W-CPSC-221-102", "2017W", "CPSC", "221",
+                "102", "BASIC ALG&DATA", new Instructor("Heeren, Cinda", "4.0/5"),
+                123, c8stats, null);
+        c8grades = new Grades(c8,0, 0, 0, 1, 4,
+                5, 3, 3, 3, 4, 8, 9,
+                9, 20, 18, 36);
+        c8stats = new Stats(c8,80.84, 14,100,32,113, 5,3);
+        c8stats.setCourse(c8);
     }
 
     @Test
     public void testSetCourse() {
-        assertEquals(null, c15grades.getCourse());
+        assertTrue(c15grades.isCourseNull());
         c15grades.setCourse(c15);
         assertEquals(c15,c15grades.getCourse());
         assertEquals(c15grades, c15.getGrades());
+
+        assertNotNull(c8grades.getCourse());
+        assertNull(c8.getGrades());
+        c8grades.setCourse(c8);
+        assertEquals(c8,c8grades.getCourse());
+        assertEquals(c8grades, c8.getGrades());
     }
 
+    @Test
+    public void testSetCourseNeitherNull1() {
+        Course c = new Course("UBC-2017W-CPSC-221-102", "2017W", "CPSC", "221",
+                "102", "BASIC ALG&DATA", new Instructor("Heeren, Cinda", "4.0/5"),
+                123, c8stats, c8grades);
+        Grades cgrades = new Grades(c,0, 0, 0, 1, 4,
+                5, 3, 3, 3, 4, 8, 9,
+                9, 20, 18, 36);
+        assertTrue(c.getGrades() != cgrades);
+        cgrades.setCourse(c);
+        assertEquals(c,cgrades.getCourse());
+        assertEquals(cgrades, c.getGrades());
+    }
+
+    @Test
+    public void testSetCourseNeitherNull2() {
+        Grades cgrades = new Grades(c15,0, 0, 0, 1, 4,
+                5, 3, 3, 3, 4, 8, 9,
+                9, 20, 18, 36);
+        Course c = new Course("UBC-2017W-CPSC-221-102", "2017W", "CPSC", "221",
+                "102", "BASIC ALG&DATA", new Instructor("Heeren, Cinda", "4.0/5"),
+                123, c8stats, cgrades);
+        assertTrue(cgrades.getCourse() != c);
+        cgrades.setCourse(c);
+        assertEquals(c,cgrades.getCourse());
+        assertEquals(cgrades, c.getGrades());
+    }
     @Test
     public void test0to9() {
         assertEquals("0", String.valueOf(c15grades.getZeroTo9()));

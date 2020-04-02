@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
+import java.awt.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseTest {
@@ -12,6 +14,9 @@ class CourseTest {
     JTextArea testTextArea;
     Grades c15grades;
     Stats c15stats;
+    Course c8;
+    Grades c8grades;
+    Stats c8stats;
     Instructor c15Instructor;
 
     @BeforeEach
@@ -25,11 +30,20 @@ class CourseTest {
                 "101", "FNDTLS FIN ACCT", new Instructor("Sinclair, Scott", "4.5/5"),
                 121, null,null);
         c15Instructor = c15.getInstructor();
+
+        c8grades = new Grades(null,0, 0, 0, 1, 4,
+                5, 3, 3, 3, 4, 8, 9,
+                9, 20, 18, 36);
+        c8stats = new Stats(null,80.84, 14,100,32,113, 5,3);
+        c8 = new Course("UBC-2017W-CPSC-221-102", "2017W", "CPSC", "221",
+                "102", "BASIC ALG&DATA", new Instructor("Heeren, Cinda", "4.0/5"),
+                123, c8stats, c8grades);
+
         testTextArea = new JTextArea();
     }
 
     @Test
-    public void testSetStatsAndGrades() {
+    public void testSetStatsAndGradesNullCase1() {
         assertTrue(c15.isStatsNull());
         assertTrue(c15.isGradesNull());
         assertTrue(c15stats.isCourseNull());
@@ -40,6 +54,68 @@ class CourseTest {
         assertEquals(c15grades, c15.getGrades());
         assertEquals(c15, c15stats.getCourse());
         assertEquals(c15, c15grades.getCourse());
+    }
+
+    @Test
+    public void testSetStatsandGradesNullCase2() {
+        assertFalse(c8.isStatsNull());
+        assertFalse(c8.isGradesNull());
+        assertTrue(c8stats.isCourseNull());
+        assertTrue(c8grades.isCourseNull());
+        c8.setGrades(c8grades);
+        c8.setStats(c8stats);
+        assertEquals(c8stats, c8.getStats());
+        assertEquals(c8grades, c8.getGrades());
+        assertEquals(c8, c8stats.getCourse());
+        assertEquals(c8, c8grades.getCourse());
+    }
+
+    @Test
+    public void testSetStatsandGradesNonNull1() {
+        Grades cgrades = new Grades(c15,0, 0, 0, 1, 4,
+                5, 3, 3, 3, 4, 8, 9,
+                9, 20, 18, 36);
+        Stats cstats = new Stats(c15,80.84, 14,100,32,113, 5,3);
+        Course c = new Course("UBC-2017W-CPSC-221-102", "2017W", "CPSC", "221",
+                "102", "BASIC ALG&DATA", new Instructor("Heeren, Cinda", "4.0/5"),
+                123, c8stats, c8grades);
+        assertFalse(c.isStatsNull());
+        assertFalse(c.isGradesNull());
+        assertFalse(cstats.isCourseNull());
+        assertFalse(cgrades.isCourseNull());
+        assertTrue(cstats.getCourse() != c);
+        assertTrue(cgrades.getCourse() != c);
+        c.setGrades(cgrades);
+        c.setStats(cstats);
+        assertEquals(cstats, c.getStats());
+        assertEquals(cgrades, c.getGrades());
+        assertEquals(c, cstats.getCourse());
+        assertEquals(c, cgrades.getCourse());
+    }
+
+    @Test
+    public void testSetStatsandGradesNonNull12() {
+        Course c = new Course("UBC-2017W-CPSC-221-102", "2017W", "CPSC", "221",
+                "102", "BASIC ALG&DATA", new Instructor("Heeren, Cinda", "4.0/5"),
+                123, c8stats, c8grades);
+        Grades cgrades = new Grades(c,0, 0, 0, 1, 4,
+                5, 3, 3, 3, 4, 8, 9,
+                9, 20, 18, 36);
+        Stats cstats = new Stats(c,80.84, 14,100,32,113, 5,3);
+        assertFalse(c.isStatsNull());
+        assertFalse(c.isGradesNull());
+        assertFalse(cstats.isCourseNull());
+        assertFalse(cgrades.isCourseNull());
+        assertEquals(cstats.getCourse() , c);
+        assertEquals(cgrades.getCourse() , c);
+        assertTrue(c.getStats() != cstats);
+        assertTrue(c.getGrades() != cgrades);
+        c.setGrades(cgrades);
+        c.setStats(cstats);
+        assertEquals(cstats, c.getStats());
+        assertEquals(cgrades, c.getGrades());
+        assertEquals(c, cstats.getCourse());
+        assertEquals(c, cgrades.getCourse());
     }
 
     @Test
@@ -91,6 +167,8 @@ class CourseTest {
 
     @Test
     public void testInfoToString() {
+        c15.toString(testTextArea, "");
+        assertEquals("",testTextArea.getText());
         c15.toString(testTextArea, "General Info");
         assertEquals("Course ID :               " + c15.getId() + "\n"
                 + "YearSession :           " + c15.getYearsession() + "\n"

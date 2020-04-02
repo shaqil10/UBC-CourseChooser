@@ -89,6 +89,9 @@ public class Course {
             case "Statistics":
                 statsToString(infoDisplay);
                 break;
+
+            default:
+                break;
         }
     }
 
@@ -108,12 +111,11 @@ public class Course {
     //MODIFIES: this, grade
     //EFFECTS: assigns these grades to the course
     public void setGrades(Grades grade) {
-        if ((!isGradesNull()) && (grades.getCourse() != null)
-                && (grades.getCourse() == this) && (this.grades == grade)) {
-            return;
+        if ((isGradesNull()) || (grades.getCourse() == null)
+                || (grades.getCourse() != this) || (this.grades != grade)) {
+            this.grades = grade;
+            grade.setCourse(this);
         }
-        this.grades = grade;
-        grade.setCourse(this);
     }
 
     public boolean isGradesNull() {
